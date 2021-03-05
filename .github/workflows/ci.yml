@@ -36,7 +36,7 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: ios-build
-        path: build/ios/iphoneos/app-release.apk
+        path: build/ios/iphoneos/app-release.ipa
   build_appbundle:
     name: Build Flutter (Android)
     runs-on: ubuntu-latest
@@ -51,7 +51,7 @@ jobs:
     - run: flutter pub get
 #     - run: flutter build apk --target-platform android-arm,android-arm64 --split-per-abi
 #     - run: flutter build appbundle --target-platform android-arm,android-arm64
-    - run: flutter build appbundle
+    - run: flutter build apk
     - name: Upload APK
       uses: actions/upload-artifact@master
       with:
