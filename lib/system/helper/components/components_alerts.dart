@@ -151,7 +151,7 @@ Future<Widget> _alertDialog(BuildContext context, bool dismissible, String title
               height: 200,
               child: Stack(
                 alignment: AlignmentDirectional.center,
-                overflow: Overflow.visible,
+                clipBehavior: Clip.none,
                 children: [
                   Container(
                     padding: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: icon != null ? 35 : 10),
