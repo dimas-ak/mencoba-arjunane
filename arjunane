@@ -1,0 +1,3 @@
+import 'lib/system/command/command_global.dart';
+
+void main(List<String> args) => init(args);
