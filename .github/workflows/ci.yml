@@ -36,7 +36,7 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: adhoc-ipa
-        path: build/ios/iphoneos/*.ipa
+        path: build/ios/iphoneos/
   build_appbundle:
     name: Build Flutter (Android)
     runs-on: ubuntu-latest
