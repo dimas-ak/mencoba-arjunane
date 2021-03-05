@@ -37,7 +37,7 @@ jobs:
       with:
         name: ios-build
         path: build/ios/iphoneos
-  build_apk:
+  build_appbundle:
     name: Build Flutter (Android)
     runs-on: ubuntu-latest
     steps:
