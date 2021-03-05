@@ -4,47 +4,47 @@ import 'dart:io';
 // WIP
 class HttpClients {
   
-  String _url;
+  // String _url;
 
-  static Future<HttpServer> _init(String url, {int port = 80 }) async {
-    var splitAddress = url.split("://");
-    if(splitAddress.length == 1) {
-      print("Ops, something went wrong\nYour url : $url not valid.");
-      return null;
-    }
+  // static Future<HttpServer> _init(String url, {int port = 80 }) async {
+  //   var splitAddress = url.split("://");
+  //   if(splitAddress.length == 1) {
+  //     print("Ops, something went wrong\nYour url : $url not valid.");
+  //     return null;
+  //   }
 
-    var server;
+  //   var server;
 
-    String typeAddress = splitAddress[0];
+  //   String typeAddress = splitAddress[0];
 
-    if(typeAddress == "https") {
-      SecurityContext context = new SecurityContext();
-      var chain =
-          Platform.script.resolve('certificates/server_chain.pem')
-          .toFilePath();
-      var key =
-          Platform.script.resolve('certificates/server_key.pem')
-          .toFilePath();
-      context.useCertificateChain(chain);
-      context.usePrivateKey(key, password: 'dartdart');
+  //   if(typeAddress == "https") {
+  //     SecurityContext context = new SecurityContext();
+  //     var chain =
+  //         Platform.script.resolve('certificates/server_chain.pem')
+  //         .toFilePath();
+  //     var key =
+  //         Platform.script.resolve('certificates/server_key.pem')
+  //         .toFilePath();
+  //     context.useCertificateChain(chain);
+  //     context.usePrivateKey(key, password: 'dartdart');
 
-      server = HttpServer
-          .bindSecure(InternetAddress.anyIPv6,
-                      443,
-                      context);
-    }
-    else {
-      server = await HttpServer.bind(url, port);
-    }
-    return server;
-  }
+  //     server = HttpServer
+  //         .bindSecure(InternetAddress.anyIPv6,
+  //                     443,
+  //                     context);
+  //   }
+  //   else {
+  //     server = await HttpServer.bind(url, port);
+  //   }
+  //   return server;
+  // }
 
-  static Future<HttpServer> _initServerSecure() {
+  // static Future<HttpServer> _initServerSecure() {
 
-  }
+  // }
 
   static Future<HttpServer> _initServer(String url, {int port = 80 }) async {
-    await HttpServer.bind(url, port);
+    return await HttpServer.bind(url, port);
   }
 
   static bool _isSecure(String url) {
