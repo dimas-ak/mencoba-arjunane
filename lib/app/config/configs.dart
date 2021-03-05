@@ -8,10 +8,10 @@ import 'package:provider/single_child_widget.dart';
 class Configs
 {
   static final Map<String, Widget> routes = {
-    'home' : CHomePage()
+    '/' : CHomePage()
   };
 
-  static final String baseRoute = 'home';
+  static final String baseRoute = '/';
 
   static final List<SingleChildWidget> providers = [
     ChangeNotifierProvider(create: (BuildContext context) => MHomeModel())
