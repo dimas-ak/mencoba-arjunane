@@ -35,7 +35,7 @@ jobs:
     - name: Upload iPA
       uses: actions/upload-artifact@master
       with:
-        name: ios-build
+        name: adhoc-ipa
         path: build/ios/iphoneos/*.ipa
   build_appbundle:
     name: Build Flutter (Android)
