@@ -100,12 +100,12 @@ class CommandsViewExtends extends Command {
 
     coding += 'class $finalFileName${CommandsConfig.insertClassNameLast ? "ViewExtends" : ""} extends ViewExtends<$finalFileNameView${CommandsConfig.insertClassNameLast ? "View" : ""}> {\n\n';
 
-    coding += '  $finalFileName${CommandsConfig.insertClassNameLast ? "ViewExtends" : ""} ($finalFileNameView${CommandsConfig.insertClassNameLast ? "View" : ""} prop) : super(prop);\n\n';
+    coding += '  $finalFileName${CommandsConfig.insertClassNameLast ? "ViewExtends" : ""} ($finalFileNameView${CommandsConfig.insertClassNameLast ? "View" : ""} view) : super(view);\n\n';
 
     coding += '  @override\n';
     coding += '  Widget build(BuildContext context) {\n\n';
     
-    coding += "  var parent = prop.prop;\n\n";
+    coding += "  var parent = view.controller;\n\n";
 
     coding += '    return Container(\n';
     coding += '    );\n\n';

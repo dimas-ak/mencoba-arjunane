@@ -143,7 +143,7 @@ class CommandsController extends Command {
     coding += '\n';
 
     // StatefulWidget
-    coding += 'class $finalFileName${CommandsConfig.insertClassNameLast ? "Page" : ""} extends StatefulWidget {\n';
+    coding += 'class $finalFileName${CommandsConfig.insertClassNameLast ? "Page" : ""} extends Pages {\n';
     coding += '  @override\n';
     coding += '  State<StatefulWidget> createState() => $finalFileName${CommandsConfig.insertClassNameLast ? "Controller" : ""}();\n';
     coding += '}\n\n';

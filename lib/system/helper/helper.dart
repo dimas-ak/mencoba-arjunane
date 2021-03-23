@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 
 class Helper {
   static Color fromHex(String hex) {
@@ -79,6 +82,16 @@ class Helper {
           );
         });
   }
+}
+
+Future<File> getFileFromAssets(String path) async {
+  final byteData = await rootBundle.load('assets/$path');
+  var paths = "${(await getTemporaryDirectory()).path}";
+  final file = File('$paths/${path.split('/').last}');
+  
+  await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+  return file;
 }
 
 Map<String, Timer> interval = new Map<String, Timer>();

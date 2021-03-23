@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'page.dart';
 import 'package:flutter/material.dart';
 
-class Model<T> with ChangeNotifier{
+class Model extends ChangeNotifier{
 
   Controller _controller;
 

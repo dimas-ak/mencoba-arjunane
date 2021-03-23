@@ -1,7 +1,5 @@
 import 'arjunane.dart';
 
-import 'helper/flashdata.dart';
-
 import '../app/config/configs.dart';
 
 import 'package:flutter/material.dart';
@@ -75,27 +73,43 @@ class RoutersService
   }
 
   static Route onGenerateRoute<T>(RouteSettings settings) {
-    Route page;
-
-    if(Configs.routes.keys.contains(settings.name)) {
-      Widget finalPage;
-     // print("-----------ini ter-eksekusi =============");
-      if(FlashData.getData("isWillPopScope-data") != null) {
-        finalPage = 
-          WillPopScope(
-            child: Configs.routes[settings.name],
-            onWillPop: () async {
-              //print("Isi dari ${callbackOnBackPress()}");
-              return callbackOnBackPress();
-            }
-          );
-      }
-      else {
-        finalPage = Configs.routes[settings.name];
-      }
-
-      page = MaterialPageRoute(builder: (_) => finalPage);
-    }
-    return page;
+    // Route page;
+    // RequestInit.setCurrentPage(settings.name);
+    // print("Nama settings : ${settings.name}");
+    // if(Configs.routes.keys.contains(settings.name)) {
+    //   Pages finalPages = Configs.routes[settings.name];
+    //   Widget finalWidget;
+    //   print("-----------ini ter-eksekusi =============");
+    //   if(FlashData.getData("isWillPopScope-data") != null) {
+    //     finalWidget = 
+    //       WillPopScope(
+    //         child: Configs.routes[settings.name],
+    //         // onWillPop: () async {
+    //         //   //print("Isi dari ${callbackOnBackPress()}");
+    //         //   finalPages.
+    //         //   return callbackOnBackPress();
+    //         // }
+    //         onWillPop: finalPages.onBackPress,
+    //       );
+    //   }
+    //   else {
+    //     finalWidget = Configs.routes[settings.name];
+    //   }
+    //   finalWidget = 
+    //       WillPopScope(
+    //         child: Configs.routes[settings.name],
+    //         // onWillPop: () async {
+    //         //   //print("Isi dari ${callbackOnBackPress()}");
+    //         //   finalPages.
+    //         //   return callbackOnBackPress();
+    //         // }
+    //         onWillPop: () async {
+    //           print("Nama Page : ${settings.name}");
+    //           return finalPages.onBackPress();
+    //         },
+    //       );
+    //   page = MaterialPageRoute(builder: (_) => finalWidget);
+    // }
+    return MaterialPageRoute(builder: (context) => Routers.getRoute(settings.name, context));
   }
 }

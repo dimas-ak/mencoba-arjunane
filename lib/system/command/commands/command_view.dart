@@ -99,7 +99,7 @@ class CommandsView extends Command {
 
     coding += 'class $finalFileName${CommandsConfig.insertClassNameLast ? "View" : ""} extends View<$finalFileNameController${CommandsConfig.insertClassNameLast ? "Controller" : ""}> {\n\n';
 
-    coding += '  $finalFileName${CommandsConfig.insertClassNameLast ? "View" : ""} ($finalFileNameController${CommandsConfig.insertClassNameLast ? "Controller" : ""} prop) : super(prop);\n\n';
+    coding += '  $finalFileName${CommandsConfig.insertClassNameLast ? "View" : ""} ($finalFileNameController${CommandsConfig.insertClassNameLast ? "Controller" : ""} controller) : super(controller);\n\n';
 
     coding += '  @override\n';
     coding += '  Widget build(BuildContext context) {\n\n';

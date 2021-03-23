@@ -48,7 +48,7 @@ void snackBar(BuildContext context, String text, {
       child: _child,
     ),
   );
-  
+
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
   // Scaffold.of(context).showSnackBar(snackBar);
 }

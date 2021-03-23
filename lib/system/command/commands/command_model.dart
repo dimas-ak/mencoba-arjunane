@@ -91,9 +91,11 @@ class CommandsModel extends Command {
     coding += '  $finalFileName${CommandsConfig.insertClassNameLast ? "Model" : ""} provider() => updateProvider<$finalFileName${CommandsConfig.insertClassNameLast ? "Model" : ""}>();\n\n';
 
     coding += '  void exampleMethod(Controller controller) {\n\n';
-    coding += '    // var con = controller as HomeController;\n';
-    coding += '    // con.title = "Mencoba saja";\n';
-    coding += '    notifyListeners();\n';
+    coding += '    setFunction(() {\n';
+    coding += '     // var con = controller as HomeController;\n';
+    coding += '     // con.title = "Mencoba saja";\n';
+    coding += '     notifyListeners();\n';
+    coding += '    });\n';
     coding += '  }\n\n';
     coding += '}';
 

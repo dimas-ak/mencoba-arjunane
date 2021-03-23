@@ -1,6 +1,19 @@
 import 'package:flutter/cupertino.dart';
+import '../system/request_data.dart';
 
-abstract class Controller<T extends StatefulWidget> extends State<T> {
+abstract class Pages extends StatefulWidget {
+
+  Pages({Key key}) :super(key: key);
+  
+  Future<bool> onBackPress(BuildContext context) async {
+    return true;
+  }
+
+}
+
+abstract class Controller<T extends Pages> extends State<T> {
+
+  RequestData request = new RequestData();
 
   void refresh(Function refresh) {
     setState(() {
@@ -12,6 +25,12 @@ abstract class Controller<T extends StatefulWidget> extends State<T> {
       refresh();
     });
   }
+  
+  void onBackData(dynamic data) {
+
+  }
+
+  //void onBackPress(Future<bool> Function() callback) => RoutersService.callbackOnBackPress = callback; 
 
   // This widget is the root of your application.
   // This method is rerun every time setState is called, for instance as done
@@ -25,8 +44,8 @@ abstract class Controller<T extends StatefulWidget> extends State<T> {
 }
 
 abstract class View<T extends Controller> extends StatelessWidget {
-  final T prop;
-  View(this.prop);
+  final T controller;
+  View(this.controller);
 
   ViewExtends<View> getChildView(ViewExtends<View> child) => child;
 
@@ -42,8 +61,8 @@ abstract class View<T extends Controller> extends StatelessWidget {
 }
 
 abstract class ViewExtends<T extends View> extends StatelessWidget {
-  final T prop;
-  ViewExtends(this.prop);
+  final T view;
+  ViewExtends(this.view);
 
   // This widget is the root of your application.
   // This method is rerun every time setState is called, for instance as done
