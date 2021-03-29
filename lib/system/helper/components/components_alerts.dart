@@ -69,7 +69,10 @@ Future<Widget> showLoadingDialog({
       valueColor: AlwaysStoppedAnimation(color)
     ),
     SizedBox(height: 10),
-    Text(message)
+    Expanded(
+      child: SingleChildScrollView(
+        child: Text(message),
+    ))
   ], actions: [
     cancelText != null ? TextButton(child: Text(cancelText), onPressed: () {
       closeDialog(context);

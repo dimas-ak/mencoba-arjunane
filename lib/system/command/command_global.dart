@@ -263,9 +263,13 @@ void _setHandle(dynamic cls, List<String> args) {
           if(c.isOptionOptional) {
             
             dynamic value;
-            if(argumentsCommands.asMap().containsKey(i) == false) value = c.defaultValue;
-            else value = argumentsCommands[i];
-            cls.options[c.key] = c.isAnyValue ? value.split("=")[1] : value;
+            if(argumentsCommands.asMap().containsKey(i) == false) value = null;
+            else {
+              if(c.isAnyValue) value = argumentsCommands[i].split("=")[1];
+              else value = argumentsCommands.asMap().containsKey(i) && argumentsCommands[i].replaceAll('--', "") == c.key;
+            }
+            
+            cls.options[c.key] = value;
 
           } else {
             

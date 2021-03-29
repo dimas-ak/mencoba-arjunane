@@ -24,9 +24,9 @@ class CommandsController extends Command {
     String nameModel;
     
     if(options['all'] != null) {
-
-      if(options['all'] != "--all") {
-        print("\n  Cannot find command : ${options['all']}\n  Do you mean '--all'?");
+      
+      if(options['all'] == false) {
+        print("Do you mean '--all'?");
         return;
       }
 

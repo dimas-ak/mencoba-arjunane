@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../arjunane.dart';
+import '../../helper/flat_colors.dart';
+import 'components_alerts.dart';
 import '../../arjunane_model.dart';
 import 'package:provider/provider.dart';
 

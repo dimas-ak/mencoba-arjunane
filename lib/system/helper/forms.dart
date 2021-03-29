@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../helper/flat_colors.dart';
 import '../../system/helper/helper.dart';
 
 class Forms {
@@ -18,7 +19,7 @@ class Forms {
     );
   }
 
-  Widget formInput(String label, String key, {
+  Widget formInput(String label, String name, {
     String placeholder,
     IconData icon = Icons.input, 
     String Function(String) validator, 
@@ -31,7 +32,7 @@ class Forms {
     bool isTextArea = false,
     TextInputType keyboardType = TextInputType.text, 
     void Function(String) onChanged,
-    String colorIcon = "#7f8c8d"
+    Color colorIcon = FlatColors.v1White4
   }) {
     
     return _containerForm(label, placeholder, optionalText, isRequired, icon, colorIcon, 
@@ -41,7 +42,7 @@ class Forms {
         maxLines: isTextArea ? 8 : 1,
         obscureText: obscureText,
         keyboardType: keyboardType,
-        controller: getController(key),
+        controller: getController(name),
         readOnly: readonly,
         validator: validator,
         style: TextStyle(fontSize: 16),
@@ -78,11 +79,11 @@ class Forms {
   /// Get value from Dropdown
   /// 
   /// return String;
-  String getSelectedDropdown(String key) {
-    return _getSelectedDropdown[key];
+  String getSelectedDropdown(String name) {
+    return _getSelectedDropdown[name];
   }
 
-  Widget formDropdown(String label, String key, List<DropdownMenuItem<String>> items, {
+  Widget formDropdown(String label, String name, List<DropdownMenuItem<String>> items, {
     String placeholder,
     IconData icon = Icons.input, 
     String Function(String) validator, 
@@ -91,7 +92,7 @@ class Forms {
     bool readonly,
     String value,
     void Function(String) onChanged,
-    String colorIcon = "#7f8c8d",
+    Color colorIcon = FlatColors.v1White4,
     
   }) {
 
@@ -111,7 +112,7 @@ class Forms {
             elevation: 16,
             validator: validator,
             onChanged: (value) {
-              _getSelectedDropdown[key] = value;
+              _getSelectedDropdown[name] = value;
               if(onChanged != null) onChanged(value);
             }, 
             items: items,
@@ -120,7 +121,7 @@ class Forms {
     );
   }
 
-  Widget _containerForm(String label, String placeholder, String optionalText, bool isRequired, IconData icon, String colorHex, {Widget child}) {
+  Widget _containerForm(String label, String placeholder, String optionalText, bool isRequired, IconData icon, Color colorHex, {Widget child}) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -130,7 +131,7 @@ class Forms {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon( icon, color: Helper.fromHex(colorHex)),
+              Icon( icon, color: colorHex),
               isRequired ? Text("*", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Helper.fromHex("#e74c3c"))) : Container(),
               SizedBox(width: 10),
               child
@@ -143,14 +144,14 @@ class Forms {
     );
   }
 
-  void setController(String key, String value) {
+  void setController(String name, String value) {
 
-    if(_inputController.keys.contains(key)) _inputController[key].text = value;
-    else _inputController[key] = new TextEditingController(text: value);
+    if(_inputController.keys.contains(name)) _inputController[name].text = value;
+    else _inputController[name] = new TextEditingController(text: value);
   }
 
-  TextEditingController getController(String key) {
-    return _inputController.containsKey(key) && (_inputController[key].text != null || _inputController[key].text.isNotEmpty) ? _inputController[key] : null;
+  TextEditingController getController(String name) {
+    return _inputController.containsKey(name) && (_inputController[name].text != null || _inputController[name].text.isNotEmpty) ? _inputController[name] : null;
   }
 
   bool validate({int indexKey = 0}) {
