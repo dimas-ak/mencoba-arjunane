@@ -1,6 +1,6 @@
 import 'routers.dart';
 
-import '../app/config/configs.dart';
+import '../../app/config/configs.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

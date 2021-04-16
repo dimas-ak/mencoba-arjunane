@@ -1,11 +1,15 @@
+import 'models/arjunane_model_alerts_widget.dart';
+import 'models/arjunane_model_buttons_notifier.dart';
+import 'models/arjunane_model_forms.dart';
+
 import 'request_data.dart';
 import 'package:provider/provider.dart';
 
-import '../system/routers_services.dart';
+import 'routers_services.dart';
 import 'package:flutter/material.dart';
-import '../app/config/configs.dart';
-import 'arjunane_model.dart';
-import '../system/page.dart';
+import '../../app/config/configs.dart';
+import 'models/arjunane_model_alerts_notifier.dart';
+import 'page.dart';
 
 typedef FutureCallback = Future Function(String);
 
@@ -50,7 +54,10 @@ class Routers
     
     var providers = Configs.providers;
 
-    providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModel()));
+    providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelAlertsNotifier()));
+    providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelAlertsWidget()));
+    providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelButtonsNotifier()));
+    providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelForms()));
     
     //var page = getRoute(route);
     return MultiProvider(

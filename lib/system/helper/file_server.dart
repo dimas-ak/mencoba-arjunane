@@ -3,7 +3,27 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class FileServer {
-
+  /// downloadFile
+  /// 
+  /// Example :
+  /// ```dart
+  /// FileServer.downloadFile("https://your-url.com", "mencoba.jpg", 
+  ///   onBefore(int contentLength) {
+  ///     // your action
+  ///   },
+  ///   onProgress(DownloadInfo info) {
+  ///     print(info.size);
+  ///     print(info.progress);
+  ///     print(info.percent);
+  ///   },
+  ///   onFinish() {
+  ///     // your action
+  ///   },
+  ///   onError(StackTrace e) {
+  ///     // handle the errors
+  ///   }
+  /// )
+  /// ```
   static Future<void> downloadFile(String url, String fileName, String dir, {Function(int) onBefore, Function(DownloadInfo) onProgress, Function() onFinish, Function(StackTrace) onError}) async {
     try {
       final client = new http.Client();

@@ -12,7 +12,6 @@ class CommandPlugins extends Command {
 
   @override
   void handle() async {
-    // TODO: implement handle
     var file = new File("pubspec.yaml");
     var fileText = await file.readAsString();
 
@@ -26,10 +25,10 @@ class CommandPlugins extends Command {
         String newValue = "";
 
         newValue = "$match\n";
-        if(!isPackageExist(fileText, 'http')) newValue += "  http: any\n";
-        if(!isPackageExist(fileText, 'provider')) newValue += "  provider: any\n";
-        if(!isPackageExist(fileText, 'path_provider')) newValue += "  path_provider: any\n";
-        if(!isPackageExist(fileText, 'shared_preferences')) newValue += "  shared_preferences: any";
+        if(!isPackageExist(fileText, 'http')) newValue += "  http: ^0.13.1\n";
+        if(!isPackageExist(fileText, 'provider')) newValue += "  provider: ^5.0.0\n";
+        if(!isPackageExist(fileText, 'path_provider')) newValue += "  path_provider: ^2.0.1\n";
+        if(!isPackageExist(fileText, 'shared_preferences')) newValue += "  shared_preferences: ^2.0.5";
         
         fileText = fileText.replaceAll(new RegExp(regex), newValue);
 

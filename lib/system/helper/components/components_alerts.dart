@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../helper.dart';
 
 import '../flat_colors.dart';
+import 'components_alerts_type.dart';
 import 'components_buttons.dart';
 import 'components_standards.dart';
 import 'components_type_style.dart';
@@ -283,11 +284,4 @@ class _AlertHelper {
   final String color;
   final IconData icon;
   _AlertHelper({this.color, this.icon});
-}
-
-enum TypeAlertDialog {
-  warning,
-  info,
-  success,
-  danger
 }

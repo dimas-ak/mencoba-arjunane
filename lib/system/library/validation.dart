@@ -10,7 +10,7 @@ class Validation
 {
   final Map<String, String> _formErrorsDefault = 
   {
-    "in" :           "{field} tidak valid.",
+    "in" :                 "{field} tidak valid.",
     "ip" :                 "{field} tidak valid.",
     "gt" :                 "{field} harus lebih besar dari {param}.", //Greater Than
     "lt" :                 "{field} harus lebih kecil dari {param}.", //Lower Than
@@ -27,7 +27,7 @@ class Validation
     "email" :              "{field} tidak valid.",
     "regex" :              "{field} tidak valid.",
     "alpha" :              "{field} hanya boleh diisi dengan Alphabet.",
-    "not_in" :       "{field} tidak valid.",
+    "not_in" :             "{field} tidak valid.",
     "integer" :            "{field} tidak valid.",
     "numeric" :            "{field} tidak valid.",
     "boolean" :            "{field} tidak valid.",
@@ -44,11 +44,11 @@ class Validation
     "alpha_numeric_dash" : "{field} hanya boleh diisi dengan Alphabet, Angka dan Garis.",
   };
 
-  Map<int, Map<String, String>> _fields = new Map<int, Map<String, String>>();
+  Map<String, String>_fields = {};
 
   List<_FieldsValidations> _fieldsValidation = [];
 
-  Map<String, String> _formErrors = new Map<String, String>();
+  Map<String, String> _formErrors = {};
 
   // Map<String,bool Function(String a)> methods = new Map<String,bool Function(String a)>();
 
@@ -60,7 +60,7 @@ class Validation
   ///
   /// Example :
   /// ```dart
-  /// valid.setErrorMessage("required", "The {field} is required.");
+  /// valid.setErrorMessage("gt", "The {field} must greater than {param}.");
   /// ```
   void setErrorMessage(String name, String text)
   {
@@ -76,9 +76,9 @@ class Validation
   /// 
   /// Example :
   /// ```dart
-  /// valid.setRules(value, "E-Mail", "required|max_length:50", { name : "email", indexForm: 0});
+  /// valid.setRules(value, "E-Mail", "required|max_length:50", name : "email");
   /// ```
-  String setRules(String value, String label, String validations, {String name, int indexForm = 0})
+  String setRules(String value, String label, String validations, {String name})
   {
     var validation = validations.split('|');
 
@@ -93,7 +93,6 @@ class Validation
       _fieldsValidation.add(data);
     }
     
-    Map<String, String> _fieldError = {};
     for(var e in validation)
     {
       if(e == "nullable")
@@ -105,10 +104,9 @@ class Validation
       var isParam = e.split(':');
       var param = isParam.length > 1 ? isParam[1] : null;
       
-      _fieldError[name] = value;
-      _fields[indexForm] = _fieldError;
+      _fields[name] = value;
 
-      var isError = _isError(value, isParam[0], label, param, indexForm: indexForm);
+      var isError = _isError(value, isParam[0], label, param);
       if(isError != null) return isError;
     }
     return null;
@@ -134,32 +132,40 @@ class Validation
   //   return null;
   // }
 
-  String getText(String name, {int indexForm = 0})
+  ///The getText() method is used to get a value from the input
+  String getText(String name)
   {
-    return _fields[indexForm][name];
+    return _fields[name];
   }
 
-  Map<String, String> all({List<String> only, List<String> except, int indexForm = 0})
+  /// The all() method is to get all values from the inputs
+  /// 
+  /// only:
+  ///- Get current values with returns only the specified name pairs from the given array.
+  /// 
+  /// except:
+  ///- Get current values with returns except the specified name pairs from the given array.
+  Map<String, String> all({List<String> only, List<String> except})
   {
     Map<String, String> newFields = new Map<String, String>();
     if(only != null && only.length > 0)
     {
       only.forEach((e) {
-        if(_fields[indexForm].containsKey(e)) newFields[e] = _fields[indexForm][e];
+        if(_fields.containsKey(e)) newFields[e] = _fields[e];
       });
       return newFields;
     }
     else if(only != null && except.length > 0)
     {
       except.forEach((e) {
-        if(_fields[indexForm].containsKey(e)) newFields[e] = _fields[indexForm][e];
+        if(_fields.containsKey(e)) newFields[e] = _fields[e];
       });
       return newFields;
     }
-    return _fields[indexForm];
+    return _fields;
   }
   
-  String _isError(String value, String validation, String label, String param, {int indexForm = 0})
+  String _isError(String value, String validation, String label, String param)
   {
     var showError = _formErrors.containsKey(validation) ? _formErrors[validation] : _formErrorsDefault[validation];
     switch(validation)
@@ -171,7 +177,7 @@ class Validation
         if(_isErrorName(value)) return _updateMessageError(showError, label);
       break;
       case "same":
-        if(_isErrorSame(value, param, indexForm)) return _updateMessageError(showError, label, kategori: 1, param: param);
+        if(_isErrorSame(value, param)) return _updateMessageError(showError, label, kategori: 1, param: param);
       break;
       case "email":
         if(_isErrorEmail(value)) return _updateMessageError(showError, label);
@@ -225,7 +231,7 @@ class Validation
         if(_isErrorEndsWith(value, param)) return _updateMessageError(showError, label);
       break;
       case "different":
-        if(_isErrorDifferent(value, param, indexForm)) return _updateMessageError(showError, label);
+        if(_isErrorDifferent(value, param)) return _updateMessageError(showError, label);
       break;
       case "alpha_dash":
         if(_isErrorAlphaDash(value)) return _updateMessageError(showError, label);
@@ -237,7 +243,7 @@ class Validation
         if(_isErrorAlphaNumericDash(value)) return _updateMessageError(showError, label);
       break;
       case "required_if":
-        if(_isErrorRequiredIf(value, param, indexForm)) return _updateMessageError(showError, label);
+        if(_isErrorRequiredIf(value, param)) return _updateMessageError(showError, label);
       break;
       case "url":
         if(_isErrorUrl(value)) return _updateMessageError(showError, label);
@@ -314,7 +320,7 @@ class Validation
     return isFind;
   }
 
-  bool _isErrorDifferent(String value, String field, int indexForm) => value == getText(field, indexForm: indexForm);
+  bool _isErrorDifferent(String value, String field) => value == getText(field);
 
   bool _isErrorAlphaDash(String value) => !RegExp(r'^[a-zA-Z-_]+$').hasMatch(value);
   
@@ -322,11 +328,11 @@ class Validation
 
   bool _isErrorAlphaNumericDash(String value) => !RegExp(r'^[a-zA-Z0-9-_]+$').hasMatch(value);
 
-  bool _isErrorRequiredIf(String value, String field, int indexForm) => 
-    (getText(field, indexForm: indexForm) != "" || getText(field, indexForm: indexForm) != null)
+  bool _isErrorRequiredIf(String value, String field) => 
+    (getText(field) != "" || getText(field) != null)
     && value == null || value.isEmpty;
   
-  bool _isErrorSame(String value, String field, int indexForm) =>  value != getText(field, indexForm: indexForm);
+  bool _isErrorSame(String value, String field) =>  value != getText(field);
   
   bool _isErrorName(String value) =>  new RegExp(r"^[a-zA-Z ,.']*$").allMatches(value) == null;
   
@@ -374,9 +380,9 @@ class Validation
   { 
     var decodeSucceeded = true;
     try {
-      var decodedJSON = json.decode(value) as Map<String, dynamic>;
+      json.decode(value) as Map<String, dynamic>;
       decodeSucceeded = false;
-    } on FormatException catch (e) { }
+    } on FormatException {}
     return decodeSucceeded;
   }
 

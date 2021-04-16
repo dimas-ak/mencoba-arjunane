@@ -52,15 +52,16 @@ class Request {
 
     var result;
     try {
+      Uri uri = Uri.parse(url);
       if (method == "POST")
-        result = await http.post(url,
+        result = await http.post(uri,
             body: body, encoding: encoding, headers: headers);
       else if (method == "DELETE")
-        result = await http.delete(url, headers: headers);
+        result = await http.delete(uri, headers: headers);
       else if (method == "PUT")
-        result = await http.put(url,
+        result = await http.put(uri,
             body: body, encoding: encoding, headers: headers);
-      else if (method == "GET") result = await http.get(url, headers: headers);
+      else if (method == "GET") result = await http.get(uri, headers: headers);
       if (result.statusCode == 200) {
         gr.isSuccess = true;
         gr.response = result.body;

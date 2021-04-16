@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
 import '../../helper/flat_colors.dart';
 import 'components_alerts.dart';
-import '../../arjunane_model.dart';
+import '../../core/models/arjunane_model_alerts_notifier.dart';
 import 'package:provider/provider.dart';
 
+/// AlertsDialogNotifier
+/// 
+/// The AlertsDialogNotifier class is an "Alert" widget which can be changed periodically
+/// 
+/// Example:
+/// ```dart
+/// var alert = new AlertsDialogNotifier();
+/// 
+/// alert.show();
+/// 
+/// setTimeout( () {
+///   alert.updateAlertsDialog(context, status : AlertsDialogStatus.success, message : 'Success');
+/// }, 5000);
+/// ```
 class AlertsDialogNotifier {
   
   final double _width = 75;
@@ -37,7 +51,7 @@ class AlertsDialogNotifier {
                         children: [
                           
                           // progress
-                          Consumer<ArjunaneModel>(builder: (context, data, _) => AnimatedPositioned(
+                          Consumer<ArjunaneModelAlertsNotifier>(builder: (context, data, _) => AnimatedPositioned(
                             top: data.getAlertsDialogNotifierStatus == AlertsDialogStatus.progress ? 2 : -_width,
                             child: CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation(FlatColors.googleBlue)
@@ -45,7 +59,7 @@ class AlertsDialogNotifier {
                           )),
                           
                           // success
-                          Consumer<ArjunaneModel>(builder: (context, data, _) {
+                          Consumer<ArjunaneModelAlertsNotifier>(builder: (context, data, _) {
                             return AnimatedPositioned(
                               top: data.getAlertsDialogNotifierStatus == AlertsDialogStatus.success? 0 : -_width,
                               duration: Duration(milliseconds: 200),
@@ -56,7 +70,7 @@ class AlertsDialogNotifier {
                           }),
 
                           // error
-                          Consumer<ArjunaneModel>(builder: (context, data, _) {
+                          Consumer<ArjunaneModelAlertsNotifier>(builder: (context, data, _) {
                             return AnimatedPositioned(
                               top: data.getAlertsDialogNotifierStatus == AlertsDialogStatus.error ? 0 : -_width,
                               duration: Duration(milliseconds: 200),
@@ -69,12 +83,12 @@ class AlertsDialogNotifier {
                         ],
                       )
                     ),
-                    Consumer<ArjunaneModel>(builder: (context, data, _) {
+                    Consumer<ArjunaneModelAlertsNotifier>(builder: (context, data, _) {
                       return Text(data.getAlertsDialogNotifierMessage);
                     }),
                     Align(
                       alignment: Alignment.topRight,
-                      child: Consumer<ArjunaneModel>(builder: (context, data, _) {
+                      child: Consumer<ArjunaneModelAlertsNotifier>(builder: (context, data, _) {
                         if(data.getAlertsDialogNotifierStatus == AlertsDialogStatus.success) {
                           return TextButton(child: Text(textButtonSuccess), onPressed: () {
                             if(onClickSuccess != null) onClickSuccess();
@@ -101,8 +115,8 @@ class AlertsDialogNotifier {
   }
 
   void updateAlertsDialog(BuildContext context, {AlertsDialogStatus status = AlertsDialogStatus.progress, String message = 'Loading ...'}) {
-    Provider.of<ArjunaneModel>(context, listen: false).changeMessageAlertDialogNotifier = message;
-    Provider.of<ArjunaneModel>(context, listen: false).changeStatusAlertDialogNotifier = status;
+    Provider.of<ArjunaneModelAlertsNotifier>(context, listen: false).changeMessageAlertDialogNotifier = message;
+    Provider.of<ArjunaneModelAlertsNotifier>(context, listen: false).changeStatusAlertDialogNotifier = status;
   }
 }
 

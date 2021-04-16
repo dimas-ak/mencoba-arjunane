@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
+
+import 'flat_colors.dart';
 
 class Helper {
   static Color fromHex(String hex) {
@@ -58,7 +61,14 @@ class Helper {
 
     return "$day${split[2]}$separator${months[int.parse(split[1])]}$separator${split[0]}"; 
   } 
-  
+
+  static String randomString({int length = 10}) {
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+    return String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  }
+
   static int getLinesString(String text) {
     return '\n'.allMatches(text).length;
   }
@@ -84,6 +94,19 @@ class Helper {
   }
 }
 
+Widget showLoadingWidget({String message = "Sedang diproses ...", Color color = FlatColors.googleBlue}) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(color)
+        ),
+        SizedBox(height: 20),
+        Text("Sedang di proses...", textAlign: TextAlign.center,)
+      ]),
+    );
+}
+
 Future<File> getFileFromAssets(String path) async {
   final byteData = await rootBundle.load('assets/$path');
   var paths = "${(await getTemporaryDirectory()).path}";
@@ -96,14 +119,28 @@ Future<File> getFileFromAssets(String path) async {
 
 Map<String, Timer> interval = new Map<String, Timer>();
 
+/// The setTimeout() method calls a function or evaluates an expression after a specified number of milliseconds.
+/// ```dart
+/// setTimeout( () {
+///   // your action
+/// }, 5000); // 5 seconds
+/// ```
 Future<void> setTimeout(Function func, int milliseconds) async => 
   await Future.delayed(Duration(milliseconds: milliseconds), func);
 
-
+/// The setInterval() method calls a function or evaluates an expression at specified intervals (in milliseconds).
+/// ```dart
+/// setInterval( () {
+///   // your action
+/// }, 5000); // every 5 seconds
+/// ```
 void setInterval(Function(Timer) callback, int milliseconds, {String key = "timer-key"}) =>
   interval[key] = Timer.periodic(Duration(milliseconds: milliseconds), callback);
 
-
+/// The stopInterval() method clears a timer set with the setInterval() method.
+/// ```dart
+/// stopInterval();
+/// ```
 void stopInterval({String key = "timer-key"}) {
   interval[key].cancel();
   interval.removeWhere( (_key, timer) => _key == key);

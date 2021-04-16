@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import '../system/request_data.dart';
+import 'request_data.dart';
 
 abstract class Pages extends StatefulWidget {
 
@@ -13,7 +13,7 @@ abstract class Pages extends StatefulWidget {
 
 abstract class Controller<T extends Pages> extends State<T> {
 
-  RequestData request = new RequestData();
+  RequestData requestData = new RequestData();
 
   void refresh(Function refresh) {
     setState(() {

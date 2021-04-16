@@ -18,8 +18,8 @@ class RequestData {
 
     dynamic data;
 
-    RequestInit.dataPages[RequestInit.currentPage].forEach((key, value) {
-      if( key == key ) data = value;
+    RequestInit.dataPages[RequestInit.currentPage].forEach((_key, value) {
+      if( key == _key ) data = value;
     });
     return data;
   }
@@ -48,7 +48,7 @@ class RequestInit {
       var lastKey = dataPages.keys.last;
       dataPages.removeWhere((key, value) => key == lastKey);
 
-      currentPage = dataPages.keys.last;
+      currentPage = dataPages.length == 0 ? "/" : dataPages.keys.last;
     }
   }
 

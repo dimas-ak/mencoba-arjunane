@@ -47,7 +47,11 @@ class CommandsController extends Command {
     
     var path = 'lib/app/controller';
 
+    // memastikan apakah user memasukkan/input nama file beserta folder?
+    // misalkan : dart arjunane create:controller folder/c_mencoba
     var folders = fileName.split("/");
+    // innerFolders digunakan untuk menambahkan
+    // ../ pada import file
     int innerFolders = 0;
     if(folders.length > 1) {
 
@@ -68,6 +72,11 @@ class CommandsController extends Command {
       }
     }
 
+    // jika value dari property insertClassNameLast bernilai true
+    // maka nama file akan ditambahkan di akhiran
+    // misal :
+    // dart arjunane create:controller mencoba_saja
+    // maka file akan menjadi mencoba_saja_controller
     var myFile = File('$path/$fileName${CommandsConfig.insertClassNameLast ? "_controller" : ""}.dart');
 
     var sink = myFile.openWrite(); // for appending at the end of file, pass parameter (mode: FileMode.append) to openWrite()
@@ -99,6 +108,9 @@ class CommandsController extends Command {
     String finalFileNameModelProperty = "";
 
     fileNames.forEach( (val) {
+      // mengubah huruf pertama atau mengubah huruf pertama setelah underscore menjadi besar
+      // misal : mencoba_saja
+      // menjadi : MencobaSaja
       finalFileName += "${val[0].toUpperCase()}${val.substring(1)}";
     });
 
@@ -107,6 +119,9 @@ class CommandsController extends Command {
       var fileNamesView = view.split("_");
 
       fileNamesView.forEach( (val) {
+        // mengubah huruf pertama atau mengubah huruf pertama setelah underscore menjadi besar
+        // misal : mencoba_saja
+        // menjadi : MencobaSaja
         finalFileNameView += "${val[0].toUpperCase()}${val.substring(1)}";
       });
 
@@ -116,6 +131,9 @@ class CommandsController extends Command {
 
       var fileNamesModel = model.split("_");
       fileNamesModel.forEach( (val) {
+        // mengubah huruf pertama atau mengubah huruf pertama setelah underscore menjadi besar
+        // misal : mencoba_saja
+        // menjadi : MencobaSaja
         finalFileNameModel += "${val[0].toUpperCase()}${val.substring(1)}";
       });
       finalFileNameModel += CommandsConfig.insertClassNameLast ? "Model" : "";

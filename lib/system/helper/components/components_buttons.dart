@@ -11,7 +11,7 @@ class Buttons extends StatelessWidget
   final Function onLongPressed;
   final TypeStyle style;
   final IconData icon;
-  final bool isDisabled;
+  final bool enabled;
   // final bool isFullWidth;
 
   const Buttons( this.text, {
@@ -20,7 +20,7 @@ class Buttons extends StatelessWidget
     this.onLongPressed, 
     this.style = TypeStyle.primary, 
     this.icon, 
-    this.isDisabled = false, 
+    this.enabled = true, 
     // this.isFullWidth = false
   }) : super(key: key);
 
@@ -47,11 +47,11 @@ class Buttons extends StatelessWidget
         shape: MaterialStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0)
         )),
-        backgroundColor: MaterialStateProperty.all(!isDisabled ? color.backgroundColor : color.disabledBackgroundColor),
-        foregroundColor: MaterialStateProperty.all(!isDisabled ? color.textColor : color.disabledTextColor)
+        backgroundColor: MaterialStateProperty.all(enabled ? color.backgroundColor : color.disabledBackgroundColor),
+        foregroundColor: MaterialStateProperty.all(enabled ? color.textColor : color.disabledTextColor)
       ),
-      onPressed: isDisabled ? null : onPressed,
-      onLongPress: isDisabled ? null : onLongPressed,
+      onPressed: !enabled ? null : onPressed,
+      onLongPress: !enabled ? null : onLongPressed,
       
       child: child,
     );
@@ -69,7 +69,7 @@ class ButtonsOutline extends StatelessWidget
   final Function onLongPressed;
   final TypeStyle style;
   final IconData icon;
-  final bool isDisabled;
+  final bool enabled;
   // final bool isFullWidth;
 
   const ButtonsOutline(this.text, {
@@ -78,7 +78,7 @@ class ButtonsOutline extends StatelessWidget
     this.onLongPressed, 
     this.style = TypeStyle.primary, 
     this.icon, 
-    this.isDisabled = false, 
+    this.enabled = true, 
     // this.isFullWidth = false
   }) : super(key: key);
 
@@ -89,12 +89,12 @@ class ButtonsOutline extends StatelessWidget
 
     Color textColor;
     if(style == TypeStyle.light) {
-      textColor = isDisabled ? color.borderColorOutline : color.disabledTextColor;
+      textColor = !enabled ? color.borderColorOutline : color.disabledTextColor;
     }
     else {
-      textColor = isDisabled ? color.disabledBackgroundColor : color.backgroundColor;
+      textColor = !enabled ? color.disabledBackgroundColor : color.backgroundColor;
     }
-    // if(!isDisabled) textColor = style == TypeStyle.light ? color.disabledTextColor : color.disabledBackgroundColor;
+    // if(!enabled) textColor = style == TypeStyle.light ? color.disabledTextColor : color.disabledBackgroundColor;
     // else textColor = style == TypeStyle.light ? color.borderColorOutline : color.backgroundColor;
     if(icon == null) child = Text(text);
     else child = Row(
@@ -117,8 +117,8 @@ class ButtonsOutline extends StatelessWidget
           foregroundColor: MaterialStateProperty.all(textColor),
           overlayColor: MaterialStateProperty.all(textColor.withOpacity(.2))
         ),
-        onPressed: isDisabled ? null : onPressed,
-        onLongPress: isDisabled ? null : onLongPressed,
+        onPressed: !enabled ? null : onPressed,
+        onLongPress: !enabled ? null : onLongPressed,
         child: child
       );
     // return isFullWidth ? SizedBox(width: double.infinity, child: elevatedButton) : elevatedButton;
