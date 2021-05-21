@@ -43,7 +43,6 @@ class FormsWidget {
 
   FormsWidget(this.context, this._globalKey, this._formOpen, this._onSubmit, this._onInit, this._isFirst, this._modelForms, this._keyForms, this._validSelected) {
 
-    assert(this._onSubmit != null, "The method 'onSubmit' is required at FormOpen.");
     _fmp = new FormsMethodsPrivate(this, _formOpen);
     _fr = new FormsRequest(_formOpen);
 
@@ -256,7 +255,7 @@ class FormsWidget {
     String? validations
   }) {
 
-    assert(labels != null || labels.length != 0, "The property 'labels' is required");
+    assert(labels.length != 0, "The property 'labels' is required");
 
     if(!_formOpen.private.isErrorForm.containsKey(name)) {
       _formOpen.private.isErrorForm[name] = false;
@@ -314,7 +313,7 @@ class FormsWidget {
   ///   "Kerja Kuli"  : "kl"
   /// }
   Widget formRadio(String name, {required List<FormRadioData> values, String? label, Function(String, String)? onChanged, String? optionalText, bool isRequired = true, IconData? icon, Color? colorIcon, String? validations}) {
-    assert(values != null || values.length != 0, "The property 'values' is required");
+    assert(values.length != 0, "The property 'values' is required");
     
     if(!_formOpen.private.getCheckedRadio.containsKey(name)) {
       _formOpen.private.isErrorForm[name] = false;
@@ -495,7 +494,7 @@ class FormsWidget {
   }
 
   void setTextEditingController(String name, String? value) {
-    if(_formOpen.private.inputController != null && _formOpen.private.inputController.containsKey(name)) _formOpen.private.inputController[name]!.text = value!;
+    if(_formOpen.private.inputController.containsKey(name)) _formOpen.private.inputController[name]!.text = value!;
     else _formOpen.private.inputController[name] = TextEditingController(text: value);
     _formOpen.private.getValue[name] = value;
   }

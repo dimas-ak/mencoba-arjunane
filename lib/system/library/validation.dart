@@ -308,9 +308,9 @@ class Validation
   
   bool _isErrorSame(String? value, String? field) =>  value != getText(field);
   
-  bool _isErrorName(String value) =>  new RegExp(r"^[a-zA-Z ,.']*$").allMatches(value) == null;
+  bool _isErrorName(String value) =>  new RegExp(r"^[a-zA-Z ,.']*$").allMatches(value).isEmpty;
   
-  bool _isErrorNumeric(String value) => new RegExp(r"^[0-9]*$").allMatches(value) == null;
+  bool _isErrorNumeric(String value) => new RegExp(r"^[0-9]*$").allMatches(value).isEmpty;
   
   bool _isErrorIP(String value) => InternetAddress.tryParse(value)!.type == InternetAddressType.any;
   

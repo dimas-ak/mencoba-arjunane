@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class FormRadioData {
   final String label;
   final String value;

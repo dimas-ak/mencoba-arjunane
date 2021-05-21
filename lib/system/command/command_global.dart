@@ -12,7 +12,7 @@ List privateCommands = [
 ];
 
 void init(List<String> args) {
-  if(args.length == 0 || args == null) {
+  if(args.length == 0) {
 
     new CommandsHelp().handle();
 

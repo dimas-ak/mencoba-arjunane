@@ -30,26 +30,26 @@ class AlertsWidget extends StatefulWidget {
       widget = new AlertsWidgetHelper(
           color: FlatColors.googleBlue,
           icon: Icons.info_outline,
-          title: title == null ? "Info" : title,
-          message: message == null ? "Message" : message);
+          title: title,
+          message: message);
     else if (typeAlertDialog == TypeAlertDialog.danger)
       widget = new AlertsWidgetHelper(
           color: FlatColors.googleRed,
           icon: Icons.cancel,
-          title: title == null ? "Info" : title,
-          message: message == null ? "Message" : message);
+          title: title,
+          message: message);
     else if (typeAlertDialog == TypeAlertDialog.success)
       widget = new AlertsWidgetHelper(
           color: FlatColors.googleGreen,
           icon: Icons.check_circle,
-          title: title == null ? "Info" : title,
-          message: message == null ? "Message" : message);
+          title: title,
+          message: message);
     else if (typeAlertDialog == TypeAlertDialog.warning)
       widget = new AlertsWidgetHelper(
           color: FlatColors.googleYellow,
           icon: Icons.warning_amber_sharp,
-          title: title == null ? "Info" : title,
-          message: message == null ? "Message" : message);
+          title: title,
+          message: message);
     return widget;
   }
 
