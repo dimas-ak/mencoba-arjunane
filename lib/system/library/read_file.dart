@@ -3,8 +3,8 @@ import 'dart:io';
 class ReadFile {
   final String _fileLocation;
 
-  String _fileText;
-  File _file;
+  String? _fileText;
+  late File _file;
   ReadFile(this._fileLocation);
   
   Future init() async {
@@ -16,19 +16,19 @@ class ReadFile {
     var reg = r".*(" + variableName + r")[\s\S]+?;";
     var regex = new RegExp(reg);
 
-    var variables = regex.allMatches(_fileText);
+    var variables = regex.allMatches(_fileText!);
     if(variables.length == 0) throw Exception("Cannot find variable with name '$variableName'");
     variables.forEach( (val) {
-      var group = val.group(0);
+      var group = val.group(0)!;
       // mendapatkan property
       // contoh : 
       //   static List mencoba
-      var getAttribute = new RegExp(r".*(" + variableName + r")").allMatches(group).first.group(0);
+      var getAttribute = new RegExp(r".*(" + variableName + r")").allMatches(group).first.group(0)!;
       // mendapatkan spasi di "  static List mencoba"
       // contoh di atas, ada 2 whitespace sebelum "static"
       var getAttributeSpace = new RegExp(r"^\s+").allMatches(getAttribute);
       
-      var getAttributeLength = getAttributeSpace.length != 0 ? getAttributeSpace.first.group(0).length : 0;
+      var getAttributeLength = getAttributeSpace.length != 0 ? getAttributeSpace.first.group(0)!.length : 0;
 
       if(_isArray(group) || _isMap(group)) {
         bool isArray = _isArray(group);
@@ -36,7 +36,7 @@ class ReadFile {
         // mencobaProperty = [
         //
         //]
-        var getProperty = new RegExp(r"(" + variableName + r")[\s\S]+?;").allMatches(group).first.group(0);
+        var getProperty = new RegExp(r"(" + variableName + r")[\s\S]+?;").allMatches(group).first.group(0)!;
         
         var lastRegex = isArray ? r")\W+\[|\];" : r")\W+{|};";
         var clean = getProperty.replaceAll(new RegExp(r"(" + variableName + lastRegex), "");
@@ -68,33 +68,33 @@ class ReadFile {
           if(isOverWrite) {
             var removeValue = getProperty.replaceAll(new RegExp(r"\[[^]*\];|{[^]*\};"), "$newValue;");
             var escapeGetProperty = getProperty.replaceAll("[", "\\[").replaceAll("]", "\\]");
-            _fileText = _fileText.replaceAll(new RegExp(escapeGetProperty), removeValue);
+            _fileText = _fileText!.replaceAll(new RegExp(escapeGetProperty), removeValue);
           }else {
             var _regex = isArray ? r"\[[\s\S]\]|\[*\]" : r"{[\s\S]}|{*}";
             var value = removeWhiteSpace.replaceAll(new RegExp(_regex), newValue);
             var escapeGetProperty = getProperty.replaceAll("[", "\\[").replaceAll("]", "\\]");
-            _fileText = _fileText.replaceAll(new RegExp(escapeGetProperty), value);
+            _fileText = _fileText!.replaceAll(new RegExp(escapeGetProperty), value);
           }
           
         }
         else {
           var escapeClean = clean.replaceAll("(", "\\(").replaceAll(")", "\\)");
           // var value = getProperty.replaceAll(new RegExp(escapeClean), join);
-          _fileText = _fileText.replaceAll(new RegExp(escapeClean), join);
+          _fileText = _fileText!.replaceAll(new RegExp(escapeClean), join);
         }
       }
       else if(_isBool(group)) {
         var newValue = group.replaceAll(new RegExp(r"true|false"), variableValue);
-        _fileText = _fileText.replaceAll(new RegExp(group), "${_addPaddingLeft(getAttributeLength)}$newValue");
+        _fileText = _fileText!.replaceAll(new RegExp(group), "${_addPaddingLeft(getAttributeLength)}$newValue");
       }
       else if(_isString(group)) {
         var newValue = group.replaceAll(new RegExp('"[\s\S]+?";|\'[\s\S]+?\';'), "'$variableValue'");
-        _fileText = _fileText.replaceAll(new RegExp(group), "${_addPaddingLeft(getAttributeLength)}$newValue");
+        _fileText = _fileText!.replaceAll(new RegExp(group), "${_addPaddingLeft(getAttributeLength)}$newValue");
       }
       else if(_isNumeric(group)) {
         var getNumber = group.replaceAll(new RegExp(r"(.*)=[\W]|(.*)=|;"), "");
         var newValue = group.replaceAll(new RegExp(getNumber), variableValue).trim();
-        _fileText = _fileText.replaceAll(new RegExp(group), "${_addPaddingLeft(getAttributeLength)}$newValue");
+        _fileText = _fileText!.replaceAll(new RegExp(group), "${_addPaddingLeft(getAttributeLength)}$newValue");
       }
     });
     return this;
@@ -102,15 +102,15 @@ class ReadFile {
 
   ReadFile setImport(String importFilePath) {
     var regex = r"(import)[\s\S]+?;";
-    var matches = new RegExp(regex).allMatches(_fileText);
+    var matches = new RegExp(regex).allMatches(_fileText!);
     var newValue = "import '$importFilePath';";
     if(matches.length > 0) {
-      String lastImport = matches.last.group(0);
+      String lastImport = matches.last.group(0)!;
       var imports = '$lastImport\n$newValue';
-      _fileText = _fileText.replaceAll(new RegExp(lastImport), imports);
+      _fileText = _fileText!.replaceAll(new RegExp(lastImport), imports);
       return this;
     }
-    var newFile = newValue + "\n" + _fileText;
+    var newFile = newValue + "\n" + _fileText!;
     _fileText = newFile;
     return this;
   }

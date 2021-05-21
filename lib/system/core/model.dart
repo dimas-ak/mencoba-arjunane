@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'page.dart';
 import 'package:flutter/material.dart';
 
-class Model<T> with ChangeNotifier{
+class Model extends ChangeNotifier{
 
-  Controller _controller;
+  late Controller _controller;
 
   int get timestamps => DateTime.now().millisecondsSinceEpoch;
 
@@ -19,7 +19,7 @@ class Model<T> with ChangeNotifier{
   set setController(Controller con) => _controller = con;
 
   void setFunction(Function callback) =>
-    WidgetsBinding.instance.addPostFrameCallback( (_) => callback() );
+    WidgetsBinding.instance!.addPostFrameCallback( (_) => callback() );
 
   T updateProvider<T>({bool listen = false}) {
     BuildContext context = _controller.context;

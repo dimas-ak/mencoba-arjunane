@@ -12,7 +12,7 @@ List privateCommands = [
 ];
 
 void init(List<String> args) {
-  if(args.length == 0 || args == null) {
+  if(args.length == 0) {
 
     new CommandsHelp().handle();
 
@@ -37,7 +37,7 @@ void init(List<String> args) {
     privateCommands.forEach( (cls) {
       
       var clsName = cls.toString().split("'")[1];
-      String signature = cls.signature;
+      String? signature = cls.signature;
       
       if(signature == null || signature == "") {
         print("Class of $clsName is don't have a 'signature' property");
@@ -62,7 +62,7 @@ void init(List<String> args) {
       CommandsConfig.commandsAssign.forEach( (cls) {
         
         var clsName = cls.toString().split("'")[1];
-        String signature = cls.signature;
+        String? signature = cls.signature;
         
         if(signature == null) {
           print("Class of $clsName is don't have a 'signature' property");
@@ -112,7 +112,7 @@ void _setHandle(dynamic cls, List<String> args) {
 
     matches.forEach( (val) {
       // mendapatkan value dari val
-      var group = val.group(0);
+      var group = val.group(0)!;
       
       // misalkan ada 2 parameters
       // parameter pertama ialah argument 
@@ -140,13 +140,13 @@ void _setHandle(dynamic cls, List<String> args) {
        * atau contoh : {user=?}
        * tanda ? merupakan sebuah tanda untuk optional
        */
-      String _defaultValue = clean.split("=").length > 1 ? clean.split("=")[1].trim() : null;
+      String? _defaultValue = clean.split("=").length > 1 ? clean.split("=")[1].trim() : null;
 
       /**
        * jika nilai/value dari _defaultValue bernilai ""
        * maka akan dibuat menjadi null
        */
-      String defaultValue = _defaultValue == "" ? null : _defaultValue;
+      String? defaultValue = _defaultValue == "" ? null : _defaultValue;
 
       /**
        * jika parameters memiliki tanda -- (double minus)
@@ -263,9 +263,13 @@ void _setHandle(dynamic cls, List<String> args) {
           if(c.isOptionOptional) {
             
             dynamic value;
-            if(argumentsCommands.asMap().containsKey(i) == false) value = c.defaultValue;
-            else value = argumentsCommands[i];
-            cls.options[c.key] = c.isAnyValue ? value.split("=")[1] : value;
+            if(argumentsCommands.asMap().containsKey(i) == false) value = null;
+            else {
+              if(c.isAnyValue) value = argumentsCommands[i].split("=")[1];
+              else value = argumentsCommands.asMap().containsKey(i) && argumentsCommands[i].replaceAll('--', "") == c.key;
+            }
+            
+            cls.options[c.key] = value;
 
           } else {
             

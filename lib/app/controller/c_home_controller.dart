@@ -3,7 +3,7 @@ import '../../system/arjunane.dart';
 import '../view/v_home_view.dart';
 import '../model/m_home_model.dart';
 
-class CHomePage extends StatefulWidget {
+class CHomePage extends Pages {
   @override
   State<StatefulWidget> createState() => CHomeController();
 }

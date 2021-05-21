@@ -6,9 +6,9 @@ import '../../../app/config/commands.dart';
 
 class CommandsViewExtends extends Command {
 
-  String signature = "create:view-extends {fileName} {viewName}";
+  String? signature = "create:view-extends {fileName} {viewName}";
 
-  String description = "Create a View Extends";
+  String? description = "Create a View Extends";
 
   @override
   void handle() {
@@ -19,8 +19,8 @@ class CommandsViewExtends extends Command {
 
   Future createView() async {
 
-    String fileName = arguments['fileName'];
-    String fileNameView = arguments['viewName'];
+    String? fileName = arguments['fileName'];
+    String? fileNameView = arguments['viewName'];
 
     if(fileName == null) {
       String msg = '\n  Not enough arguments (missing: "name")\n';
@@ -100,12 +100,12 @@ class CommandsViewExtends extends Command {
 
     coding += 'class $finalFileName${CommandsConfig.insertClassNameLast ? "ViewExtends" : ""} extends ViewExtends<$finalFileNameView${CommandsConfig.insertClassNameLast ? "View" : ""}> {\n\n';
 
-    coding += '  $finalFileName${CommandsConfig.insertClassNameLast ? "ViewExtends" : ""} ($finalFileNameView${CommandsConfig.insertClassNameLast ? "View" : ""} prop) : super(prop);\n\n';
+    coding += '  $finalFileName${CommandsConfig.insertClassNameLast ? "ViewExtends" : ""} ($finalFileNameView${CommandsConfig.insertClassNameLast ? "View" : ""} view) : super(view);\n\n';
 
     coding += '  @override\n';
     coding += '  Widget build(BuildContext context) {\n\n';
     
-    coding += "  var parent = prop.prop;\n\n";
+    coding += "  var parent = view.controller;\n\n";
 
     coding += '    return Container(\n';
     coding += '    );\n\n';

@@ -6,9 +6,9 @@ import '../commands.dart';
 
 class CommandsController extends Command {
 
-  String signature = "create:controller {fileName} {--all?}";
+  String? signature = "create:controller {fileName} {--all?}";
 
-  String description = "Create a Controller";
+  String? description = "Create a Controller";
 
   @override
   void handle() async {
@@ -20,18 +20,18 @@ class CommandsController extends Command {
       return;
     }
     
-    String nameView;
-    String nameModel;
+    String? nameView;
+    String? nameModel;
     
     if(options['all'] != null) {
-
-      if(options['all'] != "--all") {
-        print("\n  Cannot find command : ${options['all']}\n  Do you mean '--all'?");
+      
+      if(options['all'] == false) {
+        print("Do you mean '--all'?");
         return;
       }
 
-      String _nameView = ask("Enter View class Name : ");
-      String _nameModel = ask("Enter Model class Name : ");
+      String _nameView = ask("Enter View class Name : ")!;
+      String _nameModel = ask("Enter Model class Name : ")!;
 
       nameView = _nameView.trim() == "" ? null : _nameView;
       nameModel = _nameModel.trim() == "" ? null : _nameModel;
@@ -43,11 +43,15 @@ class CommandsController extends Command {
     super.handle();
   }
 
-  Future createController(String fileName, String model, String view) async {
+  Future createController(String fileName, String? model, String? view) async {
     
     var path = 'lib/app/controller';
 
+    // memastikan apakah user memasukkan/input nama file beserta folder?
+    // misalkan : dart arjunane create:controller folder/c_mencoba
     var folders = fileName.split("/");
+    // innerFolders digunakan untuk menambahkan
+    // ../ pada import file
     int innerFolders = 0;
     if(folders.length > 1) {
 
@@ -68,6 +72,11 @@ class CommandsController extends Command {
       }
     }
 
+    // jika value dari property insertClassNameLast bernilai true
+    // maka nama file akan ditambahkan di akhiran
+    // misal :
+    // dart arjunane create:controller mencoba_saja
+    // maka file akan menjadi mencoba_saja_controller
     var myFile = File('$path/$fileName${CommandsConfig.insertClassNameLast ? "_controller" : ""}.dart');
 
     var sink = myFile.openWrite(); // for appending at the end of file, pass parameter (mode: FileMode.append) to openWrite()
@@ -89,7 +98,7 @@ class CommandsController extends Command {
     
   }
 
-  String setFileController(String fileName, int innerFolders, String view, String model) {
+  String setFileController(String fileName, int innerFolders, String? view, String? model) {
 
     var fileNames = fileName.split("_");
 
@@ -99,14 +108,20 @@ class CommandsController extends Command {
     String finalFileNameModelProperty = "";
 
     fileNames.forEach( (val) {
+      // mengubah huruf pertama atau mengubah huruf pertama setelah underscore menjadi besar
+      // misal : mencoba_saja
+      // menjadi : MencobaSaja
       finalFileName += "${val[0].toUpperCase()}${val.substring(1)}";
     });
 
     if(view != null) {
 
-      var fileNamesView = view.split("_");
+      var fileNamesView = view.split("/").last.split("_");
 
       fileNamesView.forEach( (val) {
+        // mengubah huruf pertama atau mengubah huruf pertama setelah underscore menjadi besar
+        // misal : mencoba_saja
+        // menjadi : MencobaSaja
         finalFileNameView += "${val[0].toUpperCase()}${val.substring(1)}";
       });
 
@@ -116,6 +131,9 @@ class CommandsController extends Command {
 
       var fileNamesModel = model.split("_");
       fileNamesModel.forEach( (val) {
+        // mengubah huruf pertama atau mengubah huruf pertama setelah underscore menjadi besar
+        // misal : mencoba_saja
+        // menjadi : MencobaSaja
         finalFileNameModel += "${val[0].toUpperCase()}${val.substring(1)}";
       });
       finalFileNameModel += CommandsConfig.insertClassNameLast ? "Model" : "";
@@ -143,7 +161,7 @@ class CommandsController extends Command {
     coding += '\n';
 
     // StatefulWidget
-    coding += 'class $finalFileName${CommandsConfig.insertClassNameLast ? "Page" : ""} extends StatefulWidget {\n';
+    coding += 'class $finalFileName${CommandsConfig.insertClassNameLast ? "Page" : ""} extends Pages {\n';
     coding += '  @override\n';
     coding += '  State<StatefulWidget> createState() => $finalFileName${CommandsConfig.insertClassNameLast ? "Controller" : ""}();\n';
     coding += '}\n\n';

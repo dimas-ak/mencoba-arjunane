@@ -6,9 +6,9 @@ import '../../../app/config/commands.dart';
 
 class CommandsView extends Command {
 
-  String signature = "create:view {fileName} {controllerName}";
+  String? signature = "create:view {fileName} {controllerName}";
 
-  String description = "Create a View";
+  String? description = "Create a View";
 
   @override
   void handle() {
@@ -17,10 +17,10 @@ class CommandsView extends Command {
     super.handle();
   }
 
-  Future createView({String viewName, String controllerName}) async {
+  Future createView({String? viewName, String? controllerName}) async {
 
-    String fileName = viewName == null ? arguments['fileName'] : viewName;
-    String fileNameController = controllerName == null ? arguments['controllerName'] : controllerName;
+    String? fileName = viewName == null ? arguments['fileName'] : viewName;
+    String? fileNameController = controllerName == null ? arguments['controllerName'] : controllerName;
 
     if(fileName == null) {
       String msg = '\n  Not enough arguments (missing: "name")\n';
@@ -99,7 +99,7 @@ class CommandsView extends Command {
 
     coding += 'class $finalFileName${CommandsConfig.insertClassNameLast ? "View" : ""} extends View<$finalFileNameController${CommandsConfig.insertClassNameLast ? "Controller" : ""}> {\n\n';
 
-    coding += '  $finalFileName${CommandsConfig.insertClassNameLast ? "View" : ""} ($finalFileNameController${CommandsConfig.insertClassNameLast ? "Controller" : ""} prop) : super(prop);\n\n';
+    coding += '  $finalFileName${CommandsConfig.insertClassNameLast ? "View" : ""} ($finalFileNameController${CommandsConfig.insertClassNameLast ? "Controller" : ""} controller) : super(controller);\n\n';
 
     coding += '  @override\n';
     coding += '  Widget build(BuildContext context) {\n\n';

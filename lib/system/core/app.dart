@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
-  final String baseRoute;
+  final String? baseRoute;
 
-  const App({Key key, this.baseRoute}) : super(key: key);
+  const App({Key? key, this.baseRoute}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
