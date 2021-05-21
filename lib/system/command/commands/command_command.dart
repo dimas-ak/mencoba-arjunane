@@ -8,9 +8,9 @@ import '../../command/commands.dart';
 
 class CommandsCommand extends Command {
 
-  String signature = "create:command {fileName}";
+  String? signature = "create:command {fileName}";
 
-  String description = "Create a Command";
+  String? description = "Create a Command";
 
   @override
   void handle() {
@@ -48,7 +48,7 @@ class CommandsCommand extends Command {
       for(int i = 0; i < folders.length - 1; i++) {
 
         innerFolders += 1;
-        String folder = folders[i];
+        String? folder = folders[i];
         _path += '/$folder';
 
         Directory dir = new Directory(_path);

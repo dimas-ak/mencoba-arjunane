@@ -102,7 +102,7 @@ Widget showLoadingWidget({String message = "Sedang diproses ...", Color color = 
           valueColor: AlwaysStoppedAnimation(color)
         ),
         SizedBox(height: 20),
-        Text("Sedang di proses...", textAlign: TextAlign.center,)
+        Text(message, textAlign: TextAlign.center,)
       ]),
     );
 }
@@ -126,7 +126,7 @@ Map<String, Timer> interval = new Map<String, Timer>();
 /// }, 5000); // 5 seconds
 /// ```
 Future<void> setTimeout(Function func, int milliseconds) async => 
-  await Future.delayed(Duration(milliseconds: milliseconds), func);
+  await Future.delayed(Duration(milliseconds: milliseconds), func as FutureOr<void> Function()?);
 
 /// The setInterval() method calls a function or evaluates an expression at specified intervals (in milliseconds).
 /// ```dart
@@ -142,6 +142,6 @@ void setInterval(Function(Timer) callback, int milliseconds, {String key = "time
 /// stopInterval();
 /// ```
 void stopInterval({String key = "timer-key"}) {
-  interval[key].cancel();
+  interval[key]!.cancel();
   interval.removeWhere( (_key, timer) => _key == key);
 }

@@ -37,7 +37,7 @@ void init(List<String> args) {
     privateCommands.forEach( (cls) {
       
       var clsName = cls.toString().split("'")[1];
-      String signature = cls.signature;
+      String? signature = cls.signature;
       
       if(signature == null || signature == "") {
         print("Class of $clsName is don't have a 'signature' property");
@@ -62,7 +62,7 @@ void init(List<String> args) {
       CommandsConfig.commandsAssign.forEach( (cls) {
         
         var clsName = cls.toString().split("'")[1];
-        String signature = cls.signature;
+        String? signature = cls.signature;
         
         if(signature == null) {
           print("Class of $clsName is don't have a 'signature' property");
@@ -112,7 +112,7 @@ void _setHandle(dynamic cls, List<String> args) {
 
     matches.forEach( (val) {
       // mendapatkan value dari val
-      var group = val.group(0);
+      var group = val.group(0)!;
       
       // misalkan ada 2 parameters
       // parameter pertama ialah argument 
@@ -140,13 +140,13 @@ void _setHandle(dynamic cls, List<String> args) {
        * atau contoh : {user=?}
        * tanda ? merupakan sebuah tanda untuk optional
        */
-      String _defaultValue = clean.split("=").length > 1 ? clean.split("=")[1].trim() : null;
+      String? _defaultValue = clean.split("=").length > 1 ? clean.split("=")[1].trim() : null;
 
       /**
        * jika nilai/value dari _defaultValue bernilai ""
        * maka akan dibuat menjadi null
        */
-      String defaultValue = _defaultValue == "" ? null : _defaultValue;
+      String? defaultValue = _defaultValue == "" ? null : _defaultValue;
 
       /**
        * jika parameters memiliki tanda -- (double minus)

@@ -3,7 +3,7 @@ import 'request_data.dart';
 
 abstract class Pages extends StatefulWidget {
 
-  Pages({Key key}) :super(key: key);
+  Pages({Key? key}) :super(key: key);
   
   Future<bool> onBackPress(BuildContext context) async {
     return true;

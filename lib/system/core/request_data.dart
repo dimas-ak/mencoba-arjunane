@@ -6,7 +6,7 @@ class RequestData {
 
     bool isExist = false;
 
-    RequestInit.dataPages[RequestInit.currentPage].forEach((key, value) {
+    RequestInit.dataPages[RequestInit.currentPage]!.forEach((key, value) {
       if( key == key ) isExist = true;
     });
     return isExist;
@@ -18,7 +18,7 @@ class RequestData {
 
     dynamic data;
 
-    RequestInit.dataPages[RequestInit.currentPage].forEach((_key, value) {
+    RequestInit.dataPages[RequestInit.currentPage]!.forEach((_key, value) {
       if( key == _key ) data = value;
     });
     return data;
@@ -28,7 +28,7 @@ class RequestData {
     Map<String, dynamic> data = {};
     if(RequestInit.dataPages[RequestInit.currentPage] == null) return data;
 
-    RequestInit.dataPages[RequestInit.currentPage].forEach((key, value) {
+    RequestInit.dataPages[RequestInit.currentPage]!.forEach((key, value) {
       data[key] = value;
     });
     return data;
@@ -37,7 +37,7 @@ class RequestData {
 }
 
 class RequestInit {
-  static Map<String, Map<String, dynamic>> dataPages = {};
+  static Map<String, Map<String, dynamic>?> dataPages = {};
 
   static String currentPage = "";
 
@@ -61,7 +61,7 @@ class RequestInit {
 
   // jika isClear = false jika Redirect.forward('halaman')
   // menuju ke halaman baru
-  static void setPage(Map<String, dynamic> data, {bool isClear = false}) {
+  static void setPage(Map<String, dynamic>? data, {bool isClear = false}) {
     if(isClear) dataPages.clear();
 
     dataPages[currentPage] = data;

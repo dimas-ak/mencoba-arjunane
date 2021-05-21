@@ -5,50 +5,24 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../resource/validation_messages.dart';
 
 class Validation
 {
-  final Map<String, String> _formErrorsDefault = 
-  {
-    "in" :                 "{field} tidak valid.",
-    "ip" :                 "{field} tidak valid.",
-    "gt" :                 "{field} harus lebih besar dari {param}.", //Greater Than
-    "lt" :                 "{field} harus lebih kecil dari {param}.", //Lower Than
-    "gte" :                "{field} harus lebih besar dari sama dengan {param}.", //Greater Than or Equal
-    "lte" :                "{field} harus lebih kecil dari sama dengan {param}.", //Lower Than or Equal
-    "max" :                "Maksimal Angka dari {field} ialah {param}.",
-    "min" :                "Minimal Angka dari {field} ialah {param}.",
-    "url" :                "{field} tidak valid.",
-    "ipv4" :               "{field} tidak valid.",
-    "ipv6" :               "{field} tidak valid.",
-    "json" :               "{field} tidak valid.",
-    "name" :               "{field} tidak valid.",
-    "same" :               "{field} tidak sama dengan {param}.",
-    "email" :              "{field} tidak valid.",
-    "regex" :              "{field} tidak valid.",
-    "alpha" :              "{field} hanya boleh diisi dengan Alphabet.",
-    "not_in" :             "{field} tidak valid.",
-    "integer" :            "{field} tidak valid.",
-    "numeric" :            "{field} tidak valid.",
-    "boolean" :            "{field} tidak valid.",
-    "required" :           "{field} harap diisi.",
-    "ends_with" :          "{field} harus diakhiri dengan {param}.",
-    "different" :          "{field} tidak boleh sama dengan {param}.",
-    "not_regex" :          "{field} tidak valid.",
-    "max_length" :         "Maksimal Karakter untuk {field} ialah {param}.",
-    "min_length" :         "Minimal Karakter untuk {field} ialah {param}.",
-    "alpha_dash" :         "{field} hanya boleh diisi dengan Alphabet dan Garis.",
-    "starts_with" :        "{field} harus diawali dengan {param}.",
-    "required_if" :        "{field} harus diisi.",
-    "alpha_numeric" :      "{field} hanya boleh diisi dengan Alphabet dan Angka.",
-    "alpha_numeric_dash" : "{field} hanya boleh diisi dengan Alphabet, Angka dan Garis.",
-  };
 
-  Map<String, String>_fields = {};
+  Map<String?, String?>_fields = {};
 
   List<_FieldsValidations> _fieldsValidation = [];
 
   Map<String, String> _formErrors = {};
+
+  String _languageValidation = ValidationMessage.validationMessageId;
+
+  set setLanguageValidation(String language) {
+    if(ValidationMessage.validationMessages.containsKey(language)) {
+      _languageValidation = language;
+    }
+  }
 
   // Map<String,bool Function(String a)> methods = new Map<String,bool Function(String a)>();
 
@@ -78,7 +52,7 @@ class Validation
   /// ```dart
   /// valid.setRules(value, "E-Mail", "required|max_length:50", name : "email");
   /// ```
-  String setRules(String value, String label, String validations, {String name})
+  String? setRules(String? value, String label, String validations, {String? name})
   {
     var validation = validations.split('|');
 
@@ -133,7 +107,7 @@ class Validation
   // }
 
   ///The getText() method is used to get a value from the input
-  String getText(String name)
+  String? getText(String? name)
   {
     return _fields[name];
   }
@@ -145,9 +119,9 @@ class Validation
   /// 
   /// except:
   ///- Get current values with returns except the specified name pairs from the given array.
-  Map<String, String> all({List<String> only, List<String> except})
+  Map<String?, String?> all({List<String>? only, List<String>? except})
   {
-    Map<String, String> newFields = new Map<String, String>();
+    Map<String?, String?> newFields = new Map<String?, String?>();
     if(only != null && only.length > 0)
     {
       only.forEach((e) {
@@ -155,122 +129,122 @@ class Validation
       });
       return newFields;
     }
-    else if(only != null && except.length > 0)
+    else if(except != null && except.length > 0)
     {
-      except.forEach((e) {
-        if(_fields.containsKey(e)) newFields[e] = _fields[e];
+      _fields.forEach((name, value) {
+        if(!except.contains(name)) newFields[name] = _fields[name];
       });
       return newFields;
     }
     return _fields;
   }
   
-  String _isError(String value, String validation, String label, String param)
+  String? _isError(String? value, String validation, String label, String? param)
   {
-    var showError = _formErrors.containsKey(validation) ? _formErrors[validation] : _formErrorsDefault[validation];
+    var showError = _formErrors.containsKey(validation) ? _formErrors[validation] : ValidationMessage.validationMessages[_languageValidation]![validation];
     switch(validation)
     {
       case "required":
-        if(_isErrorRequired(value))return _updateMessageError(showError, label);
+        if(_isErrorRequired(value))return _updateMessageError(showError!, label);
       break;
       case "name":
-        if(_isErrorName(value)) return _updateMessageError(showError, label);
+        if(_isErrorName(value!)) return _updateMessageError(showError!, label);
       break;
       case "same":
-        if(_isErrorSame(value, param)) return _updateMessageError(showError, label, kategori: 1, param: param);
+        if(_isErrorSame(value, param)) return _updateMessageError(showError!, label, kategori: 1, param: param);
       break;
       case "email":
-        if(_isErrorEmail(value)) return _updateMessageError(showError, label);
+        if(_isErrorEmail(value!)) return _updateMessageError(showError!, label);
       break;
       case "numeric":
-        if(_isErrorNumeric(value)) return _updateMessageError(showError, label);
+        if(_isErrorNumeric(value!)) return _updateMessageError(showError!, label);
       break;
       case "alpha":
-        if(_isErrorAlpha(value)) return _updateMessageError(showError, label);
+        if(_isErrorAlpha(value!)) return _updateMessageError(showError!, label);
       break;
       case "integer":
-        if(_isErrorInteger(value)) return _updateMessageError(showError, label);
+        if(_isErrorInteger(value!)) return _updateMessageError(showError!, label);
       break;
       case "boolean":
-        if(_isErrorBoolean(value)) return _updateMessageError(showError, label);
+        if(_isErrorBoolean(value)) return _updateMessageError(showError!, label);
       break;
       case "in":
-        if(_isErrorInArray(value, param)) return _updateMessageError(showError, label);
+        if(_isErrorInArray(value, param!)) return _updateMessageError(showError!, label);
       break;
       case "not_in":
-        if(_isErrorNotInArray(value, param)) return _updateMessageError(showError, label);
+        if(_isErrorNotInArray(value, param!)) return _updateMessageError(showError!, label);
       break;
       case "max_length":
-        if(_isErrorMaxLength(value, int.parse(param))) return _updateMessageError(showError, label, kategori: 0, param: param);
+        if(_isErrorMaxLength(value!, int.parse(param!))) return _updateMessageError(showError!, label, kategori: 0, param: param);
       break;
       case "min_length":
-        if(_isErrorMinLength(value, int.parse(param))) return _updateMessageError(showError, label, kategori: 0, param: param);
+        if(_isErrorMinLength(value!, int.parse(param!))) return _updateMessageError(showError!, label, kategori: 0, param: param);
       break;
       case "max":
-        if(_isErrorMax(value, double.parse(param))) return _updateMessageError(showError, label, kategori: 0, param: param);
+        if(_isErrorMax(value!, double.parse(param!))) return _updateMessageError(showError!, label, kategori: 0, param: param);
       break;
       case "min":
-        if(_isErrorMin(value, double.parse(param))) return _updateMessageError(showError, label, kategori: 0, param: param);
+        if(_isErrorMin(value!, double.parse(param!))) return _updateMessageError(showError!, label, kategori: 0, param: param);
       break;
       case "gt":
-        if(_isErrorGt(value, double.parse(param))) return _updateMessageError(showError, label, kategori: 0, param: param);
+        if(_isErrorGt(value!, double.parse(param!))) return _updateMessageError(showError!, label, kategori: 0, param: param);
       break;
       case "lt":
-        if(_isErrorLt(value, double.parse(param))) return _updateMessageError(showError, label, kategori: 0, param: param);
+        if(_isErrorLt(value!, double.parse(param!))) return _updateMessageError(showError!, label, kategori: 0, param: param);
       break;
       case "gte":
-        if(_isErrorGte(value, double.parse(param))) return _updateMessageError(showError, label, kategori: 0, param: param);
+        if(_isErrorGte(value!, double.parse(param!))) return _updateMessageError(showError!, label, kategori: 0, param: param);
       break;
       case "lte":
-        if(_isErrorLte(value, double.parse(param))) return _updateMessageError(showError, label, kategori: 0, param: param);
+        if(_isErrorLte(value!, double.parse(param!))) return _updateMessageError(showError!, label, kategori: 0, param: param);
       break;
       case "starts_with":
-        if(_isErrorStartsWith(value, param)) return _updateMessageError(showError, label);
+        if(_isErrorStartsWith(value, param!)) return _updateMessageError(showError!, label);
       break;
       case "ends_with":
-        if(_isErrorEndsWith(value, param)) return _updateMessageError(showError, label);
+        if(_isErrorEndsWith(value, param!)) return _updateMessageError(showError!, label);
       break;
       case "different":
-        if(_isErrorDifferent(value, param)) return _updateMessageError(showError, label);
+        if(_isErrorDifferent(value, param)) return _updateMessageError(showError!, label);
       break;
       case "alpha_dash":
-        if(_isErrorAlphaDash(value)) return _updateMessageError(showError, label);
+        if(_isErrorAlphaDash(value!)) return _updateMessageError(showError!, label);
       break;
       case "alpha_numeric":
-        if(_isErrorAlphaNumeric(value)) return _updateMessageError(showError, label);
+        if(_isErrorAlphaNumeric(value!)) return _updateMessageError(showError!, label);
       break;
       case "alpha_numeric_dash":
-        if(_isErrorAlphaNumericDash(value)) return _updateMessageError(showError, label);
+        if(_isErrorAlphaNumericDash(value!)) return _updateMessageError(showError!, label);
       break;
       case "required_if":
-        if(_isErrorRequiredIf(value, param)) return _updateMessageError(showError, label);
+        if(_isErrorRequiredIf(value, param)) return _updateMessageError(showError!, label);
       break;
       case "url":
-        if(_isErrorUrl(value)) return _updateMessageError(showError, label);
+        if(_isErrorUrl(value!)) return _updateMessageError(showError!, label);
       break;
       case "json":
-        if(_isErrorJson(value)) return _updateMessageError(showError, label);
+        if(_isErrorJson(value!)) return _updateMessageError(showError!, label);
       break;
       case "ip":
-        if(_isErrorIP(value)) return _updateMessageError(showError, label);
+        if(_isErrorIP(value!)) return _updateMessageError(showError!, label);
       break;
       case "ipv4":
-        if(_isErrorIPv4(value)) return _updateMessageError(showError, label);
+        if(_isErrorIPv4(value!)) return _updateMessageError(showError!, label);
       break;
       case "ipv6":
-        if(_isErrorIPv6(value)) return _updateMessageError(showError, label);
+        if(_isErrorIPv6(value!)) return _updateMessageError(showError!, label);
       break;
       case "regex":
-        if(_isErrorRegex(value, param)) return _updateMessageError(showError, label);
+        if(_isErrorRegex(value!, param!)) return _updateMessageError(showError!, label);
       break;
       case "not_regex":
-        if(_isErrorNotRegex(value, param)) return _updateMessageError(showError, label);
+        if(_isErrorNotRegex(value!, param!)) return _updateMessageError(showError!, label);
       break;
     }
     return null;
   }
   
-  bool _isErrorRequired(String value) => value == null || value.isEmpty;
+  bool _isErrorRequired(String? value) => value == null || value.isEmpty;
   
   bool _isErrorEmail(String value) => !RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(value);
 
@@ -278,9 +252,9 @@ class Validation
 
   bool _isErrorInteger(String value) => !RegExp(r'^[-+]?[1-9]\d*$').hasMatch(value);
 
-  bool _isErrorBoolean(String value) => value == "true" || value == 'false';
+  bool _isErrorBoolean(String? value) => value == "true" || value == 'false';
 
-  bool _isErrorInArray(String value, String param) {
+  bool _isErrorInArray(String? value, String param) {
     var split = param.split(",");
     var find = true;
     split.forEach((element) {
@@ -289,7 +263,7 @@ class Validation
     return find;
   }
 
-  bool _isErrorNotInArray(String value, String param) {
+  bool _isErrorNotInArray(String? value, String param) {
     var split = param.split(",");
     var find  = false;
     split.forEach((element) {
@@ -302,25 +276,25 @@ class Validation
 
   bool _isErrorNotRegex(String value, String param) => RegExp(r'' + param).hasMatch(value);
 
-  bool _isErrorStartsWith(String value, String param) {
+  bool _isErrorStartsWith(String? value, String param) {
     var params = param.split(",");
     var isFind = true;
     params.forEach((element) {
-      if(!RegExp(r'^' + param).hasMatch(value)) isFind = false;
+      if(!RegExp(r'^' + param).hasMatch(value!)) isFind = false;
     });
     return isFind;
   }
 
-  bool _isErrorEndsWith(String value, String param) {
+  bool _isErrorEndsWith(String? value, String param) {
     var params = param.split(",");
     var isFind = true;
     params.forEach((element) {
-      if(RegExp(r'.*' + element + r'$').hasMatch(value)) isFind = false;
+      if(RegExp(r'.*' + element + r'$').hasMatch(value!)) isFind = false;
     });
     return isFind;
   }
 
-  bool _isErrorDifferent(String value, String field) => value == getText(field);
+  bool _isErrorDifferent(String? value, String? field) => value == getText(field);
 
   bool _isErrorAlphaDash(String value) => !RegExp(r'^[a-zA-Z-_]+$').hasMatch(value);
   
@@ -328,21 +302,21 @@ class Validation
 
   bool _isErrorAlphaNumericDash(String value) => !RegExp(r'^[a-zA-Z0-9-_]+$').hasMatch(value);
 
-  bool _isErrorRequiredIf(String value, String field) => 
+  bool _isErrorRequiredIf(String? value, String? field) => 
     (getText(field) != "" || getText(field) != null)
-    && value == null || value.isEmpty;
+    && value == null || value!.isEmpty;
   
-  bool _isErrorSame(String value, String field) =>  value != getText(field);
+  bool _isErrorSame(String? value, String? field) =>  value != getText(field);
   
   bool _isErrorName(String value) =>  new RegExp(r"^[a-zA-Z ,.']*$").allMatches(value) == null;
   
   bool _isErrorNumeric(String value) => new RegExp(r"^[0-9]*$").allMatches(value) == null;
   
-  bool _isErrorIP(String value) => InternetAddress.tryParse(value).type == InternetAddressType.any;
+  bool _isErrorIP(String value) => InternetAddress.tryParse(value)!.type == InternetAddressType.any;
   
-  bool _isErrorIPv4(String value) => InternetAddress.tryParse(value).type == InternetAddressType.IPv4;
+  bool _isErrorIPv4(String value) => InternetAddress.tryParse(value)!.type == InternetAddressType.IPv4;
   
-  bool _isErrorIPv6(String value) => InternetAddress.tryParse(value).type == InternetAddressType.IPv6;
+  bool _isErrorIPv6(String value) => InternetAddress.tryParse(value)!.type == InternetAddressType.IPv6;
   
   bool _isErrorMaxLength(String value, int param) => value.length > param;
   
@@ -380,7 +354,7 @@ class Validation
   { 
     var decodeSucceeded = true;
     try {
-      json.decode(value) as Map<String, dynamic>;
+      json.decode(value) as Map<String, dynamic>?;
       decodeSucceeded = false;
     } on FormatException {}
     return decodeSucceeded;
@@ -394,7 +368,7 @@ class Validation
 
   /// * kategori 0 : untuk parameter panjang
   /// * kategori 1 : untuk parameter field (Contoh "same")
-  String _updateMessageError(String error, String label, {String param, int kategori, String name})
+  String _updateMessageError(String error, String label, {String? param, int? kategori, String? name})
   {
     var replace = error.replaceAll(new RegExp(r'{field}'), label);
     if(param != null)
@@ -417,10 +391,10 @@ class Validation
 
 class _FieldsValidations
 {
-  String name;
-  String validations;
-  String label;
-  TextEditingController controller;
-  TextField textField;
-  TextFormField textFormField;
+  String? name;
+  String? validations;
+  late String label;
+  TextEditingController? controller;
+  TextField? textField;
+  TextFormField? textFormField;
 }

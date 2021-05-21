@@ -8,8 +8,8 @@ import '../../arjunane_info.dart';
 
 class CommandsHelp extends Command {
 
-  SplayTreeMap<String, String> data = new SplayTreeMap<String, String>();
-  SplayTreeMap<String, List<_CommandsProperty>> dataKey = new SplayTreeMap<String, List<_CommandsProperty>>();
+  SplayTreeMap<String?, String?> data = new SplayTreeMap<String?, String?>();
+  SplayTreeMap<String?, List<_CommandsProperty>> dataKey = new SplayTreeMap<String?, List<_CommandsProperty>>();
 
   void handle() {
     var createCommands = [
@@ -39,12 +39,12 @@ class CommandsHelp extends Command {
     msg += '\nAvailable commands:';
 
     data.forEach((key, value) {
-      msg += "\n  $key${descriptionLine(key)}  $value";
+      msg += "\n  $key${descriptionLine(key!)}  $value";
     });
     dataKey.forEach((key, value) {
       msg += "\n  $key";
       value.forEach((element) {
-        msg += "\n    ${element.signature}${descriptionLine(element.signature)}${element.description}";
+        msg += "\n    ${element.signature}${descriptionLine(element.signature!)}${element.description}";
       });
     });
     
@@ -66,19 +66,19 @@ class CommandsHelp extends Command {
       var key = split[0];
       if(split.length > 1) {
         if(!dataKey.containsKey(key)) dataKey[key] = [];
-        dataKey[key].add(new _CommandsProperty(element.signature.split(" ")[0], element.description));
+        dataKey[key]!.add(new _CommandsProperty(element.signature.split(" ")[0], element.description));
       }
       else data[key] = element.description;
     });
     dataKey.forEach((key, value) {
-      value.sort( (a,b) => a.signature.compareTo(b.signature));
+      value.sort( (a,b) => a.signature!.compareTo(b.signature!));
     });
   }
 
 }
 
 class _CommandsProperty {
-  final String signature;
-  final String description;
+  final String? signature;
+  final String? description;
   _CommandsProperty(this.signature, this.description);
 }

@@ -2,9 +2,9 @@ import 'dart:io';
 
 abstract class Command {
 
-  String signature;
+  String? signature;
 
-  String description;
+  String? description;
 
   Map<String, dynamic> arguments = {};
 
@@ -18,12 +18,12 @@ abstract class Command {
     
   }
 
-  String ask(String text) {
+  String? ask(String text) {
     stdout.write(text);
     return stdin.readLineSync();
   }
 
-  String secret(String text) {
+  String? secret(String text) {
     print(text);
     stdin.echoMode = false;
     return stdin.readLineSync();  
@@ -31,7 +31,7 @@ abstract class Command {
 
   bool confirm(String text) {
     stdout.write("$text\nY/N");
-    return stdin.readLineSync().trim() == "Y";
+    return stdin.readLineSync()!.trim() == "Y";
   }
 }
 
@@ -46,8 +46,8 @@ class CommandProperty {
 
   final bool isAnyValue;
 
-  final String key;
-  final String defaultValue;
+  final String? key;
+  final String? defaultValue;
   
   CommandProperty({this.isArray = false, this.isArgumentOptional = false, this.isOptionOptional = false, this.key, this.defaultValue, this.typeProperty = "argument", this.isAnyValue = false});
 }

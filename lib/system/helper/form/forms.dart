@@ -6,6 +6,7 @@ import '../../core/models/arjunane_model_forms.dart';
 import 'package:provider/provider.dart';
 import '../helper.dart';
 import 'forms_request.dart';
+import 'forms_validation_selected.dart';
 
 class FormOpen extends StatefulWidget {
 
@@ -13,13 +14,13 @@ class FormOpen extends StatefulWidget {
 
   final void Function(FormsRequest) onSubmit;
 
-  final void Function(FormsWidget) onInit;
+  final void Function(FormsWidget)? onInit;
 
   final globalKey = GlobalKey<FormState>();
 
   final String keyForms = Helper.randomString();
 
-  FormOpen({@required this.child, @required this.onSubmit, this.onInit, Key key}) : super(key: key);
+  FormOpen({required this.child, required this.onSubmit, this.onInit, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => FormOpenState();
@@ -29,12 +30,13 @@ class FormOpen extends StatefulWidget {
 class FormOpenState extends State<FormOpen> {
   
   FormsDataPrivate private = new FormsDataPrivate();
+  FormsValidationSelected _validSelected = new FormsValidationSelected();
 
   bool _isFirst = true;
   
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _isFirst = false;
     });
     super.initState();
@@ -61,7 +63,8 @@ class FormOpenState extends State<FormOpen> {
             widget.onInit, // on Init
             _isFirst,
             data,
-            widget.keyForms
+            widget.keyForms,
+            _validSelected
         ));
         },
       )

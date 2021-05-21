@@ -8,9 +8,9 @@ import '../../../app/config/commands.dart';
 
 class CommandsModel extends Command {
 
-  String signature = "create:model {fileName}";
+  String? signature = "create:model {fileName}";
 
-  String description = "Create a Model";
+  String? description = "Create a Model";
 
   @override
   void handle() {
@@ -19,7 +19,7 @@ class CommandsModel extends Command {
 
     super.handle();
   }
-  Future createModel({String fileNameModel}) async {
+  Future createModel({String? fileNameModel}) async {
 
     var fileName = fileNameModel == null ? arguments['fileName'] : fileNameModel;
     
@@ -42,7 +42,7 @@ class CommandsModel extends Command {
       for(int i = 0; i < folders.length - 1; i++) {
 
         innerFolders += 1;
-        String folder = folders[i];
+        String? folder = folders[i];
         _path += '/$folder';
 
         Directory dir = new Directory(_path);

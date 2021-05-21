@@ -4,13 +4,13 @@ import '../flat_colors.dart';
 import 'components_type_style.dart';
 
 void snackBar(BuildContext context, String text, {
-  String title, 
-  List<Widget> actions,
+  String? title, 
+  List<Widget>? actions,
   TypeStyle style = TypeStyle.light,
-  Widget Function(_SnackBarHelper) child,
+  Widget Function(_SnackBarHelper)? child,
   int milliseconds = 5000
 }) { 
-  var colors = _getSnackbarStyle(style);
+  var colors = _getSnackbarStyle(style)!;
   Widget _child;
   if(child == null) {
 
@@ -58,7 +58,7 @@ void snackBarClose(BuildContext context) {
   // Scaffold.of(context).removeCurrentSnackBar();
 }
 
-_SnackBarHelper _getSnackbarStyle(TypeStyle style) {
+_SnackBarHelper? _getSnackbarStyle(TypeStyle style) {
   var ini;
 
   //light
@@ -114,8 +114,8 @@ _SnackBarHelper _getSnackbarStyle(TypeStyle style) {
 }
 
 class _SnackBarHelper {
-  final Color backgroundColor;
-  final Color textColor;
-  final Color dividerColor;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final Color? dividerColor;
   _SnackBarHelper({this.backgroundColor, this.textColor, this.dividerColor});
 }

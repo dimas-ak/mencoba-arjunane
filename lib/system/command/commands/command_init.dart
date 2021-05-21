@@ -5,10 +5,10 @@ import '../commands_class.dart';
 class CommandPlugins extends Command {
 
   // The name and signature of the console command.
-  String signature = "init";
+  String? signature = "init";
 
   // The console command description.
-  String description = "Init Arjunane";
+  String? description = "Init Arjunane";
 
   @override
   void handle() async {

@@ -6,9 +6,9 @@ import '../commands.dart';
 
 class CommandsController extends Command {
 
-  String signature = "create:controller {fileName} {--all?}";
+  String? signature = "create:controller {fileName} {--all?}";
 
-  String description = "Create a Controller";
+  String? description = "Create a Controller";
 
   @override
   void handle() async {
@@ -20,8 +20,8 @@ class CommandsController extends Command {
       return;
     }
     
-    String nameView;
-    String nameModel;
+    String? nameView;
+    String? nameModel;
     
     if(options['all'] != null) {
       
@@ -30,8 +30,8 @@ class CommandsController extends Command {
         return;
       }
 
-      String _nameView = ask("Enter View class Name : ");
-      String _nameModel = ask("Enter Model class Name : ");
+      String _nameView = ask("Enter View class Name : ")!;
+      String _nameModel = ask("Enter Model class Name : ")!;
 
       nameView = _nameView.trim() == "" ? null : _nameView;
       nameModel = _nameModel.trim() == "" ? null : _nameModel;
@@ -43,7 +43,7 @@ class CommandsController extends Command {
     super.handle();
   }
 
-  Future createController(String fileName, String model, String view) async {
+  Future createController(String fileName, String? model, String? view) async {
     
     var path = 'lib/app/controller';
 
@@ -98,7 +98,7 @@ class CommandsController extends Command {
     
   }
 
-  String setFileController(String fileName, int innerFolders, String view, String model) {
+  String setFileController(String fileName, int innerFolders, String? view, String? model) {
 
     var fileNames = fileName.split("_");
 
@@ -116,7 +116,7 @@ class CommandsController extends Command {
 
     if(view != null) {
 
-      var fileNamesView = view.split("_");
+      var fileNamesView = view.split("/").last.split("_");
 
       fileNamesView.forEach( (val) {
         // mengubah huruf pertama atau mengubah huruf pertama setelah underscore menjadi besar

@@ -6,9 +6,9 @@ import '../../../app/config/commands.dart';
 
 class CommandsViewExtends extends Command {
 
-  String signature = "create:view-extends {fileName} {viewName}";
+  String? signature = "create:view-extends {fileName} {viewName}";
 
-  String description = "Create a View Extends";
+  String? description = "Create a View Extends";
 
   @override
   void handle() {
@@ -19,8 +19,8 @@ class CommandsViewExtends extends Command {
 
   Future createView() async {
 
-    String fileName = arguments['fileName'];
-    String fileNameView = arguments['viewName'];
+    String? fileName = arguments['fileName'];
+    String? fileNameView = arguments['viewName'];
 
     if(fileName == null) {
       String msg = '\n  Not enough arguments (missing: "name")\n';

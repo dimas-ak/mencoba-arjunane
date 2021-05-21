@@ -22,7 +22,7 @@ class AlertsDialogNotifier {
   
   final double _width = 75;
 
-  Future show(BuildContext context, {bool dismissible = false, Function onClickSuccess, String textButtonSuccess = "OK", Function onClickError, String textButtonError = "OK"}) async {
+  Future show(BuildContext context, {bool dismissible = false, Function? onClickSuccess, String textButtonSuccess = "OK", Function? onClickError, String textButtonError = "OK"}) async {
     updateAlertsDialog(context);
     return await showGeneralDialog(
       context: context,
@@ -84,7 +84,7 @@ class AlertsDialogNotifier {
                       )
                     ),
                     Consumer<ArjunaneModelAlertsNotifier>(builder: (context, data, _) {
-                      return Text(data.getAlertsDialogNotifierMessage);
+                      return Text(data.getAlertsDialogNotifierMessage!);
                     }),
                     Align(
                       alignment: Alignment.topRight,
@@ -110,7 +110,7 @@ class AlertsDialogNotifier {
             )
           )
         );
-      }, pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) => null
+      }, pageBuilder: ((BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) => null) as Widget Function(BuildContext, Animation<double>, Animation<double>)
     ); 
   }
 

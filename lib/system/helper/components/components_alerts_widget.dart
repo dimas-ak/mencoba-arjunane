@@ -11,21 +11,21 @@ class AlertsWidget extends StatefulWidget {
   final String message;
   final AlertsWidgetType alertsWidgetType;
   final TypeAlertDialog typeAlertDialog;
-  final bool Function() onClose;
-  final Widget child;
-  final Key key;
+  final bool Function()? onClose;
+  final Widget? child;
+  final Key? key;
 
   AlertsWidget(
-      {@required this.title,
-      @required this.message,
+      {required this.title,
+      required this.message,
       this.typeAlertDialog = TypeAlertDialog.info,
       this.alertsWidgetType = AlertsWidgetType.box,
       this.child,
       this.onClose,
       this.key}) : super(key : key);
 
-  AlertsWidgetHelper _init() {
-    AlertsWidgetHelper widget;
+  AlertsWidgetHelper? _init() {
+    AlertsWidgetHelper? widget;
     if (typeAlertDialog == TypeAlertDialog.info)
       widget = new AlertsWidgetHelper(
           color: FlatColors.googleBlue,
@@ -80,19 +80,19 @@ class _AlertsWidgetState extends State<AlertsWidget> {
               children: [
                 Container(
                   width: 50,
-                  child: Icon(init.icon, color: init.color),
+                  child: Icon(init!.icon, color: init.color),
                 ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        init.title,
+                        init.title!,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: init.color),
                       ),
-                      Text(init.message),
-                      widget.child != null ? widget.child : Container()
+                      Text(init.message!),
+                      widget.child != null ? widget.child! : Container()
                     ],
                   ),
                 ),
@@ -101,7 +101,7 @@ class _AlertsWidgetState extends State<AlertsWidget> {
                     child: TextButton(
                         onPressed: () {
                           if (widget.onClose != null)
-                            isClose = widget.onClose();
+                            isClose = widget.onClose!();
                           else
                             isClose = true;
 
@@ -124,13 +124,13 @@ class _AlertsWidgetState extends State<AlertsWidget> {
             width: double.infinity,
             child: Stack(
               children: [
-                Center(child: Icon(init.icon, size: 75, color: init.color)),
+                Center(child: Icon(init!.icon, size: 75, color: init.color)),
                 Positioned(
                     right: 0,
                     child: TextButton(
                         onPressed: () {
                           if (widget.onClose != null)
-                            isClose = widget.onClose();
+                            isClose = widget.onClose!();
                           else
                             isClose = true;
 
@@ -144,12 +144,12 @@ class _AlertsWidgetState extends State<AlertsWidget> {
               padding: EdgeInsets.all(10),
               child: Column(children: [
                 Text(
-                  init.title,
+                  init.title!,
                   style:
                       TextStyle(fontWeight: FontWeight.bold, color: init.color),
                 ),
-                Text(init.message),
-                widget.child != null ? widget.child : Container()
+                Text(init.message!),
+                widget.child != null ? widget.child! : Container()
               ])),
         ]),
       );
@@ -165,9 +165,9 @@ class _AlertsWidgetState extends State<AlertsWidget> {
 enum AlertsWidgetType { box, rectangle }
 
 class AlertsWidgetHelper {
-  final IconData icon;
-  final Color color;
-  final String title;
-  final String message;
+  final IconData? icon;
+  final Color? color;
+  final String? title;
+  final String? message;
   AlertsWidgetHelper({this.icon, this.color, this.title, this.message});
 }

@@ -24,7 +24,7 @@ class FileServer {
   ///   }
   /// )
   /// ```
-  static Future<void> downloadFile(String url, String fileName, String dir, {Function(int) onBefore, Function(DownloadInfo) onProgress, Function() onFinish, Function(StackTrace) onError}) async {
+  static Future<void> downloadFile(String url, String fileName, String dir, {Function(int?)? onBefore, Function(DownloadInfo)? onProgress, Function()? onFinish, Function(StackTrace)? onError}) async {
     try {
       final client = new http.Client();
       http.StreamedResponse response = await client.send(http.Request("GET", Uri.parse('$url')));
@@ -38,7 +38,7 @@ class FileServer {
 
       Future.doWhile(() async {
         var received = await file.length();
-        var percent = ((received / length) * 100).toStringAsFixed(0);
+        var percent = ((received / length!) * 100).toStringAsFixed(0);
         if(onProgress != null) onProgress(new DownloadInfo(progress: received.toDouble(), size: length.toDouble(), percent: int.parse(percent)));
         return received != length;
       });
@@ -50,7 +50,7 @@ class FileServer {
     }
   }
 
-  static Future<void> uploadFile(String url, String name, File file, {Function() onBefore, Function() onProgress, Function() onFinish, Function(StackTrace) onError}) async {
+  static Future<void> uploadFile(String url, String name, File file, {Function()? onBefore, Function()? onProgress, Function()? onFinish, Function(StackTrace)? onError}) async {
 
     var uri = Uri.parse('$url');
 
@@ -73,8 +73,8 @@ class FileServer {
 }
 
 class DownloadInfo {
-  double size;
-  double progress;
-  int percent;
+  double? size;
+  double? progress;
+  int? percent;
   DownloadInfo({this.size, this.progress, this.percent});
 }

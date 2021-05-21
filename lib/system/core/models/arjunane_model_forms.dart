@@ -4,9 +4,9 @@ class ArjunaneModelForms extends ChangeNotifier {
   
   Map<String, bool> _enabledForms = {};
 
-  Map<String, Map<String, String>> _formsDropdown = {};
+  Map<String, Map<String, String?>> _formsDropdown = {};
 
-  Map<String, Map<String, bool>> _formsCheckbox = {};
+  Map<String, Map<String, bool?>> _formsCheckbox = {};
 
   Map<String, Map<String, bool>> _errorCheckbox = {};
 
@@ -18,9 +18,9 @@ class ArjunaneModelForms extends ChangeNotifier {
 
   Map<String, bool> get getEnabledForms => _enabledForms;
 
-  Map<String, Map<String, String>> get getFormsDropdown => _formsDropdown;
+  Map<String, Map<String, String?>> get getFormsDropdown => _formsDropdown;
 
-  Map<String, Map<String, bool>> get getFormsCheckbox => _formsCheckbox;
+  Map<String, Map<String, bool?>> get getFormsCheckbox => _formsCheckbox;
 
   Map<String, Map<String, String>> get getFormsDatePicker => _formsDatePicker;
 
@@ -35,7 +35,7 @@ class ArjunaneModelForms extends ChangeNotifier {
     notifyListeners();
   }
 
-  set changeDropdown(Map<String, Map<String, String>> formsDropdown) {
+  set changeDropdown(Map<String, Map<String, String?>> formsDropdown) {
     _formsDropdown = formsDropdown;
     notifyListeners();
   }
@@ -45,7 +45,7 @@ class ArjunaneModelForms extends ChangeNotifier {
     notifyListeners();
   }
 
-  set changeCheckbox(Map<String, Map<String, bool>> formsCheckbox) {
+  set changeCheckbox(Map<String, Map<String, bool?>> formsCheckbox) {
     _formsCheckbox = formsCheckbox;
     notifyListeners();
   }

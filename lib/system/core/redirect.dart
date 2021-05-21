@@ -18,7 +18,7 @@ extension Redirect on NavigatorState {
   // }
 
   static void route(BuildContext context, String routeName,
-      {RouterAnimationType type, Duration duration, Map<String, dynamic> withData }) {
+      {RouterAnimationType? type, Duration? duration, Map<String, dynamic>? withData }) {
     var nextPage = Routers.app(routeName);
 
     RequestInit.currentPage = routeName;
@@ -32,7 +32,7 @@ extension Redirect on NavigatorState {
   }
 
   static Future forward(BuildContext context, String routeName,
-      {RouterAnimationType type, Duration duration, Map<String, dynamic> withData }) async
+      {RouterAnimationType? type, Duration? duration, Map<String, dynamic>? withData }) async
   {
     RequestInit.currentPage = routeName;
     RequestInit.setPage(withData, isClear: false);
@@ -45,11 +45,11 @@ extension Redirect on NavigatorState {
     await Navigator.of(context).push(redirect);
   }
 
-  static Duration _durationCheck(Duration duration) => duration == null ? new Duration(milliseconds: 200) : duration;
+  static Duration _durationCheck(Duration? duration) => duration == null ? new Duration(milliseconds: 200) : duration;
 
   // static void onBackPress(Future<bool> Function() callback) => RoutersService.callbackOnBackPress = callback;
 
-  static void back(BuildContext context, {RedirectData withData}) {
+  static void back(BuildContext context, {RedirectData? withData}) {
     Navigator.pop(context);
     if(withData != null) {
       withData.previousController.onBackData(withData.data);

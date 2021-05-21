@@ -1,6 +1,10 @@
 import 'models/arjunane_model_alerts_widget.dart';
 import 'models/arjunane_model_buttons_notifier.dart';
 import 'models/arjunane_model_forms.dart';
+import 'models/theme_core_model.dart';
+import 'models/arjunane_model_expand_panel.dart';
+import 'models/arjunane_model_view_widget.dart';
+
 
 import 'request_data.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +19,12 @@ typedef FutureCallback = Future Function(String);
 
 class Routers
 {
-  static Widget getRoute(String name, BuildContext context) {
-    var routes = Configs.routes[name];
+  static Widget getRoute(String? name, BuildContext context) {
+    var routes = Configs.routes[name!];
 
     // throw to 404
     if(routes == null) return RoutersService.errorPage(0, name);
-    Pages finalPages = routes;
+    Pages finalPages = routes as Pages;
     
     return WillPopScope(
       child: routes,
@@ -50,22 +54,30 @@ class Routers
     return routes;
   }
 
-  static Widget app(String route) {
+  static Widget app(String? route) {
     
     var providers = Configs.providers;
 
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelAlertsNotifier()));
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelAlertsWidget()));
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelButtonsNotifier()));
+    providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelExpandPanel()));
     providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelForms()));
+    providers.add(ChangeNotifierProvider(create: (BuildContext context) => ArjunaneModelViewWidget()));
+    providers.add(ChangeNotifierProvider(create: (BuildContext context) => ThemeCoreModel()));
     
     //var page = getRoute(route);
     return MultiProvider(
       providers: providers,
-      child: MaterialApp(
-        initialRoute: route,
-        // routes: RoutersService.routes(),
-        onGenerateRoute: RoutersService.onGenerateRoute,
+      child: Consumer<ThemeCoreModel>(
+        builder: (ctx, data, _) {
+          return MaterialApp(
+            theme: data.themeData,
+            initialRoute: route,
+            // routes: RoutersService.routes(),
+            onGenerateRoute: RoutersService.onGenerateRoute,
+          );
+        },
       )
     );
   }

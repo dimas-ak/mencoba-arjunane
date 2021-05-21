@@ -47,7 +47,7 @@ class HttpClients {
     return await HttpServer.bind(url, port);
   }
 
-  static bool _isSecure(String url) {
+  static bool? _isSecure(String url) {
     var splitAddress = url.split("://");
     if(splitAddress.length == 1) {
       print("Ops, something went wrong\nYour url : $url not valid.");
@@ -61,7 +61,7 @@ class HttpClients {
 
     if(_isSecure(url) == null) return;
     
-    if(_isSecure(url)) {
+    if(_isSecure(url)!) {
 
     }
     else await _initServer(url).then( (res) {

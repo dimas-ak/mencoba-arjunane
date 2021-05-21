@@ -5,9 +5,9 @@ import 'package:http/http.dart' as http;
 
 class Request {
   static void post(String url, void Function(_GetRequest) callback,
-          {Map<String, String> headers,
+          {Map<String, String>? headers,
           dynamic body,
-          Encoding encoding}) async =>
+          Encoding? encoding}) async =>
       await _req(
           url: url,
           method: "POST",
@@ -17,14 +17,14 @@ class Request {
           cb: (_gr) => callback(_gr));
 
   static void get(String url, void Function(_GetRequest) callback,
-          {Map<String, String> headers}) async =>
+          {Map<String, String>? headers}) async =>
       await _req(
           url: url, method: "GET", headers: headers, cb: (gr) => callback(gr));
 
   static void put(String url, void Function(_GetRequest) callback,
-          {Map<String, String> headers,
+          {Map<String, String>? headers,
           dynamic body,
-          Encoding encoding}) async =>
+          Encoding? encoding}) async =>
       await _req(
           url: url,
           method: "GET",
@@ -34,23 +34,23 @@ class Request {
           cb: (gr) => callback(gr));
 
   static void delete(String url, void Function(_GetRequest) callback,
-          {Map<String, String> headers}) async =>
+          {Map<String, String>? headers}) async =>
       await _req(
           url: url, method: "GET", headers: headers, cb: (gr) => callback(gr));
 
   static Future _req(
-      {String url,
-      void Function(_GetRequest) cb,
+      {required String url,
+      required void Function(_GetRequest) cb,
       String method = "POST",
-      Map<String, String> headers,
+      Map<String, String>? headers,
       dynamic body,
-      Encoding encoding}) async {
+      Encoding? encoding}) async {
     _GetRequest gr = new _GetRequest();
 
     gr.error = null;
     gr.response = null;
 
-    var result;
+    late var result;
     try {
       Uri uri = Uri.parse(url);
       if (method == "POST")
@@ -79,8 +79,8 @@ class Request {
 
 class _GetRequest {
   bool isSuccess = false;
-  String response;
-  String error;
-  int statusCode;
-  bool isRedirect;
+  String? response;
+  String? error;
+  int? statusCode;
+  bool? isRedirect;
 }

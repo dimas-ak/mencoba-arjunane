@@ -4,23 +4,24 @@ library arjunane;
 export 'command/commands.dart';
 
 // helper
-export '../system/helper/form/forms_request.dart';
-export '../system/helper/form/forms_widget.dart';
-export '../system/helper/components.dart';
-export '../system/helper/helper.dart';
-export '../system/helper/file_server.dart';
-export '../system/helper/font_size.dart';
-export '../system/helper/flat_colors.dart';
-export '../system/helper/flashdata.dart';
+export 'helper/form/forms_request.dart';
+export 'helper/form/forms_widget.dart';
+export 'helper/components.dart';
+export 'helper/helper.dart';
+export 'helper/file_server.dart';
+export 'helper/font_size.dart';
+export 'helper/flat_colors.dart';
+export 'helper/flashdata.dart';
 
 // library
 export 'helper/form/forms.dart';
-export '../system/library/validation.dart';
+export 'library/validation.dart';
 
 // system
 export 'core/model.dart';
-export '../system/core/page.dart';
-export '../system/core/redirect.dart';
-export '../system/core/request.dart';
-export '../system/core/routers.dart';
-export '../system/core/routers_animation.dart';
+export 'core/view_widget.dart';
+export 'core/page.dart';
+export 'core/redirect.dart';
+export 'core/request.dart';
+export 'core/routers.dart';
+export 'core/routers_animation.dart';

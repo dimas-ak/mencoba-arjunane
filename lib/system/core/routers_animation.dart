@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class RoutersAnimation {
 
-  static Route<bool> type(RouterAnimationType type, BuildContext context, Widget nextPage, Duration duration)
+  static Route<bool> type(RouterAnimationType? type, BuildContext context, Widget nextPage, Duration duration)
   {
     var redirect;
     switch (type) {
@@ -78,7 +78,7 @@ class _CustomRoute {
       position: Tween<Offset>(
         begin: Offset(x, y),
         end: Offset.zero,
-      ).animate(animation),
+      ).animate(animation as Animation<double>),
       child: child,
     );
   }
@@ -127,7 +127,7 @@ class _CustomRoute {
           position: new Tween<Offset>(
             begin: Offset(0.0, 0.0),
             end: Offset(currentX, currentY),
-          ).animate(animation),
+          ).animate(animation as Animation<double>),
           child: currentPage,
         ),
         SlideTransition(

@@ -6,13 +6,13 @@ import '../flat_colors.dart';
 class Header extends StatelessWidget
 {
   final String text;
-  final Color fontColor;
-  final TypeHeader typeHeader;
-  final TextAlign textAlign;
-  final FontStyle fontStyle;
+  final Color? fontColor;
+  final TypeHeader? typeHeader;
+  final TextAlign? textAlign;
+  final FontStyle? fontStyle;
 
   Header(this.text, {
-    Key key,
+    Key? key,
     this.fontColor,
     this.typeHeader,
     this.textAlign,
@@ -21,7 +21,7 @@ class Header extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    double fontSize;
+    double? fontSize;
     if(typeHeader == TypeHeader.h1) fontSize = 36;
     else if(typeHeader == TypeHeader.h2) fontSize = 28;
     else if(typeHeader == TypeHeader.h3) fontSize = 22;
@@ -44,9 +44,9 @@ class Header extends StatelessWidget
 /// HEADER  
 /// 
 /// H1 - H6
-Widget heading(String text, {Color fontColor, TypeHeader typeHeader = TypeHeader.h1, TextAlign textAlign, FontStyle fontStyle}) {
+Widget heading(String text, {Color? fontColor, TypeHeader typeHeader = TypeHeader.h1, TextAlign? textAlign, FontStyle? fontStyle}) {
 
-  double fontSize;
+  double? fontSize;
   if(typeHeader == TypeHeader.h1) fontSize = 36;
   else if(typeHeader == TypeHeader.h2) fontSize = 28;
   else if(typeHeader == TypeHeader.h3) fontSize = 22;
